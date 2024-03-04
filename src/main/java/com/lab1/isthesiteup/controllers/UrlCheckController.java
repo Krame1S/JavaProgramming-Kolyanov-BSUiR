@@ -2,11 +2,12 @@ package com.lab1.isthesiteup.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.lab1.isthesiteup.services.UrlCheckService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 
-@RestController                                                     //This annotation is used to mark a class as a request handling component 
+@Controller
 public class UrlCheckController {
 
     private final UrlCheckService urlCheckService;
@@ -15,8 +16,15 @@ public class UrlCheckController {
         this.urlCheckService = urlCheckService;
     }
 
-    @GetMapping("/check")
-    public String getUrlStatusMessage(@RequestParam String url) {
-        return urlCheckService.checkUrl(url);
+    @GetMapping("/")
+    public String showCheckForm(Model model) {
+        return "check";
+    }
+
+    @PostMapping("/check")
+    public String checkUrl(@RequestParam String url, Model model) {
+        String result = urlCheckService.checkUrl(url);
+        model.addAttribute("urlStatusMessage", result);
+        return "check";
     }
 }
