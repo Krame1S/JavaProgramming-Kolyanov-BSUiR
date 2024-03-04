@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Check URL</title>
+</head>
+<body>
+    <h1>Check URL Status</h1>
+    <form action="#" th:action="@{/check}" method="post">
+        <input type="text" name="url" placeholder="Enter URL" required>
+        <button type="submit">Check</button>
+    </form>    
+    <div th:if="${urlStatusMessage}">
+        <p th:text="${urlStatusMessage}"></p>
+    </div>
+</body>
+</html>
