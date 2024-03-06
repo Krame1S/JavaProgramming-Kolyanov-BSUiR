@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,13 @@ public class UrlCheckService {
 
         urlCheckRepository.save(entity); 
         return entity;
+    }
+
+    public List<UrlCheckEntity> getAllUrlChecks() {
+        return urlCheckRepository.findAll();
+    }
+
+    public void deleteUrlCheck(Long id) {
+        urlCheckRepository.deleteById(id);
     }
 }

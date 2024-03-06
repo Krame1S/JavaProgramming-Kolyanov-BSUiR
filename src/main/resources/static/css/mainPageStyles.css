@@ -1,0 +1,87 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px 0;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 400px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.history-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.history-button:hover {
+    background-color: #007B9A;
+}
+
+/* CSS for Creative Message and URL Display */
+
+.message-container, .url-display-container {
+    background-color: #e6f4f1; /* Light, soothing background */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    padding: 20px; /* Padding for better spacing */
+    margin: 20px 0; /* Margin for separation */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.message-container p, .url-display-container p {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    font-size: 1.1em; /* Slightly larger text */
+    color: #007BFF; /* Unique color for emphasis */
+    text-align: center; /* Centered text */
+}
+
+/* Style for links within the message */
+.message-container a, .url-display-container a {
+    color: #007BFF; /* Match the text color for consistency */
+    text-decoration: underline; /* Underline to indicate links */
+}
+
+.message-container a:hover, .url-display-container a:hover {
+    text-decoration: none; /* Remove underline on hover */
+    color: #0056b3; /* Darker color on hover for feedback */
+    cursor: pointer; /* Change cursor to indicate clickable */
+}

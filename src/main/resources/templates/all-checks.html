@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All URL Checks</title>
+                                        <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>All URL Checks</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="urlCheck, stat : ${allUrlChecks}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${urlCheck.url}"></td>
+                <td th:text="${urlCheck.status}"></td>
+                <td>
+                    <form th:action="@{/all-checks/{id}(id=${urlCheck.id})}" method="post">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit"><i class="fas fa-times"></i></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Back Button with updated class for styling -->
+    <button class="back-button" onclick="location.href='/';">Back</button>
+                                        <!-- <script src="/js/your-script.js"></script> -->
+</body>
+</html>
