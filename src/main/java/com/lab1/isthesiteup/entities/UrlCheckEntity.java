@@ -1,5 +1,8 @@
 package com.lab1.isthesiteup.entities;
 
+
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +20,8 @@ public class UrlCheckEntity {
   private String url;
 
   private String status;
+
+  private LocalDateTime time;
 
   public Long getId() {
     return id;
@@ -40,6 +45,14 @@ public class UrlCheckEntity {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public LocalDateTime getTime() {
+    return time;
+  }
+
+  public void setTime(LocalDateTime time) {
+    this.time = time;
   }
 
 }
