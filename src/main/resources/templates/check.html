@@ -13,11 +13,12 @@
     </form>
 
     <!-- History Button with updated class for styling -->
-    <button class="history-button" onclick="location.href='/all-checks';">History</button>
+    <button class="history-button" onclick="location.href='/all-checks/today';">History</button>
 
     <div class="message-container">
       <p th:text="${message}"></p>
-    </div>
+      <td th:text="${#temporals.format(time, 'HH:mm')}"></td> <!-- Display time if available -->
+     </div>
 
     <div class="url-display-container" th:if="${url}">
       <p>Checked URL: <span th:text="${url}"></span></p>
@@ -26,3 +27,4 @@
                   <!-- <script src="/js/mainPageJS.js"></script> -->
 </body>
 </html>
+
