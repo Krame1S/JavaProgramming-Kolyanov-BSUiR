@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 public class UrlCheckController {
@@ -33,15 +34,35 @@ public class UrlCheckController {
         UrlCheckEntity result = urlCheckService.checkUrl(url);
         model.addAttribute("message", result.getStatus());
         model.addAttribute("url", result.getUrl());
+        model.addAttribute("time", result.getTime());
         return "check";
-    }
+    }    
 
-    @GetMapping("/all-checks")
-    public String showAllUrlChecks(Model model) {
-        List<UrlCheckEntity> allUrlChecks = urlCheckService.getAllUrlChecks();
-        model.addAttribute("allUrlChecks", allUrlChecks);
+    private String showUrlChecksForPeriod(String period, Model model) {
+        List<UrlCheckEntity> urlChecks;
+        switch (period) {
+            case "today":
+                urlChecks = urlCheckService.getUrlChecksForToday();
+                break;
+            case "yesterday":
+                urlChecks = urlCheckService.getUrlChecksForYesterday();
+                break;
+            case "this-week":
+                urlChecks = urlCheckService.getUrlChecksForThisWeek();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid period: " + period);
+        }
+        model.addAttribute("allUrlChecks", urlChecks);
+        model.addAttribute("period", period);   
         return "all-checks";
     }
+
+    @GetMapping("/all-checks/{period}")
+    public String showUrlChecks(@PathVariable String period, Model model) {
+        return showUrlChecksForPeriod(period, model);
+    }
+
 
     @DeleteMapping("/all-checks/{id}")
     public String deleteUrlCheck(@PathVariable Long id) {
@@ -49,6 +70,6 @@ public class UrlCheckController {
         return "redirect:/all-checks";
     }
 
-
-
+    //@PutMapping("/all-checks/{id}")
+    
 }
