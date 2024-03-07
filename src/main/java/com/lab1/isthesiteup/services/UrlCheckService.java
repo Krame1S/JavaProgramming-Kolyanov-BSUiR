@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -43,17 +45,37 @@ public class UrlCheckService {
             entity.setStatus(INCORRECT_URL);  
         }
 
-        entity.setUrl(url);                                 
+        entity.setUrl(url);         
+        
+        LocalDateTime now = LocalDateTime.now();
+        entity.setTime(now);                      
 
         urlCheckRepository.save(entity); 
         return entity;
     }
 
-    public List<UrlCheckEntity> getAllUrlChecks() {
-        return urlCheckRepository.findAll();
-    }
-
     public void deleteUrlCheck(Long id) {
         urlCheckRepository.deleteById(id);
+    }
+
+    public List<UrlCheckEntity> getUrlChecksBetween(LocalDateTime start, LocalDateTime end) {
+        List<UrlCheckEntity> urlChecks = urlCheckRepository.findByTimeBetween(start, end);
+        urlChecks.sort((a, b) -> b.getTime().compareTo(a.getTime()));
+        return urlChecks;
+    }
+
+    public List<UrlCheckEntity> getUrlChecksForToday() {
+        LocalDate now = LocalDate.now();
+        return getUrlChecksBetween(now.atStartOfDay(), now.plusDays(1).atStartOfDay());
+    }
+
+    public List<UrlCheckEntity> getUrlChecksForYesterday() {
+        LocalDate now = LocalDate.now();
+        return getUrlChecksBetween(now.minusDays(1).atStartOfDay(), now.atStartOfDay());
+    }
+
+    public List<UrlCheckEntity> getUrlChecksForThisWeek() {
+        LocalDate now = LocalDate.now();
+        return getUrlChecksBetween(now.minusDays(7).atStartOfDay(), now.atStartOfDay().plusDays(1));
     }
 }
