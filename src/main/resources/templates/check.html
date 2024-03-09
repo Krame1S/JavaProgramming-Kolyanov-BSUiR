@@ -7,10 +7,11 @@
 <body>
     <h1>Check URL Status</h1>
   
-    <form action="#" th:action="@{/check}" method="post">
-        <input type="text" name="url" placeholder="Enter URL" required>
-        <button type="submit">Check</button>
-    </form>
+    <form action="#" th:action="@{/check-url}" method="post">
+      <input type="text" name="url" placeholder="Enter URL" required>
+      <button type="submit">Check</button>
+  </form>
+  
 
     <!-- History Button with updated class for styling -->
     <button class="history-button" onclick="location.href='/all-checks/today';">History</button>

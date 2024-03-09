@@ -7,10 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.Table; 
+import jakarta.persistence.ManyToOne;
 
 @Entity
-//@Table(name = "url_check_entity") 
 public class UrlCheckEntity {
 
   @Id
@@ -22,6 +21,17 @@ public class UrlCheckEntity {
   private String status;
 
   private LocalDateTime time;
+
+  @ManyToOne
+  private UserEntity user;
+
+  public UserEntity getUser() {
+    return user;
+}
+
+  public void setUser(UserEntity user) {
+    this.user = user;
+  }
 
   public Long getId() {
     return id;
