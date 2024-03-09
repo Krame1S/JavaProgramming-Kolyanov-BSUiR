@@ -23,7 +23,7 @@ public class UrlCheckController {
         this.urlCheckService = urlCheckService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/main-page")
     public String showCheckForm(Model model) {
         return "check";
     }
@@ -63,11 +63,12 @@ public class UrlCheckController {
     }
 
 
-    @DeleteMapping("/all-checks/{id}")
-    public String deleteUrlCheck(@PathVariable Long id) {
+    @DeleteMapping("/all-checks/{id}/{period}")
+    public String deleteUrlCheck(@PathVariable Long id, @PathVariable String period) {
         urlCheckService.deleteUrlCheck(id);
-        return "redirect:/all-checks";
+        return "redirect:/all-checks/" + period;
     }
+    
 
     //@PutMapping("/all-checks/{id}")
     

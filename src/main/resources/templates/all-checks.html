@@ -24,7 +24,7 @@
                     <th>#</th>
                     <th>URL</th>
                     <th>Status</th>
-                    <th th:if="${period} != 'this-week'">Time</th> <!-- Conditionally render the header -->
+                    <th th:if="${period} != 'this-week'">Time</th> 
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -33,12 +33,12 @@
                     <td th:text="${stat.count}"></td>
                     <td th:text="${urlCheck.url}"></td>
                     <td th:text="${urlCheck.status}"></td>
-                    <td th:if="${period} != 'this-week'" th:text="${#temporals.format(urlCheck.time, 'HH:mm')}"></td> <!-- Conditionally render the date cell -->
+                    <td th:if="${period} != 'this-week'" th:text="${#temporals.format(urlCheck.time, 'HH:mm')}"></td>
                     <td>
-                        <form th:action="@{/all-checks/{id}(id=${urlCheck.id})}" method="post">
+                        <form th:action="@{/all-checks/{id}/{period}(id=${urlCheck.id}, period=${period})}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             <button type="submit"><i class="fas fa-times"></i></button>
-                        </form>
+                        </form>                        
                     </td>
                 </tr>
             </tbody>
