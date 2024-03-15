@@ -9,9 +9,9 @@
     <div class="sidebar">
         <h3>Filter by Date</h3>
         <ul>
-            <li><a href="/all-checks/today">Today</a></li>
-            <li><a href="/all-checks/yesterday">Yesterday</a></li>
-            <li><a href="/all-checks/this-week">This week</a></li>
+            <li><a href="/{userId}(userId=${userId})/today">Today</a></li>
+            <li><a href="/{userId}(userId=${userId})/yesterday">Yesterday</a></li>
+            <li><a href="/{userId}(userId=${userId})/this-week">This week</a></li>
             <!-- Add more links as needed -->
         </ul>
     </div>
@@ -35,7 +35,7 @@
                     <td th:text="${urlCheck.status}"></td>
                     <td th:if="${period} != 'this-week'" th:text="${#temporals.format(urlCheck.time, 'HH:mm')}"></td>
                     <td>
-                        <form th:action="@{/all-checks/{id}/{period}(id=${urlCheck.id}, period=${period})}" method="post">
+                        <form th:action="@{/{id}/{period}(id=${urlCheck.id}, period=${period})}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             <button type="submit"><i class="fas fa-times"></i></button>
                         </form>                        
@@ -44,8 +44,9 @@
             </tbody>
         </table>
 
-        <button class="back-button" onclick="location.href='/';">Back</button>
-        <!-- <script src="/js/your-script.js"></script> -->
+        <form action="#" th:action="@{/main-page/{userId}(userId=${userId})}" method="get">
+            <button type="submit">Back</button>
+        </form>
     </div>
 </body>
 </html>

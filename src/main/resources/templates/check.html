@@ -2,30 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Check URL</title>
-                <!-- <link rel="stylesheet" href="/css/mainPageStyles.css"> -->
 </head>
 <body>
     <h1>Check URL Status</h1>
   
-    <form action="#" th:action="@{/check-url}" method="post">
+    <form action="#" th:action="@{/check/{userId}(userId=${userId})}" method="post">
       <input type="text" name="url" placeholder="Enter URL" required>
       <button type="submit">Check</button>
-  </form>
-  
+    </form>
 
-    <!-- History Button with updated class for styling -->
-    <button class="history-button" onclick="location.href='/all-checks/today';">History</button>
+    <form action="#" th:action="@{/{userId}/today(userId=${userId})}" method="get">
+      <button type="submit">History</button>
+    </form>
 
+    <form action="/logout" method="post" style="display: inline;">
+      <input type="submit" value="Logout">
+    </form>
+    
     <div class="message-container">
       <p th:text="${message}"></p>
-      <td th:text="${#temporals.format(time, 'HH:mm')}"></td> <!-- Display time if available -->
-     </div>
+      <td th:text="${#temporals.format(time, 'HH:mm')}"></td>
+    </div>
 
     <div class="url-display-container" th:if="${url}">
       <p>Checked URL: <span th:text="${url}"></span></p>
     </div>
 
-                  <!-- <script src="/js/mainPageJS.js"></script> -->
 </body>
 </html>
-

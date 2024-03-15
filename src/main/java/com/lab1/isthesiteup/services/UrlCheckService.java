@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.lab1.isthesiteup.entities.UrlCheckEntity;
+import com.lab1.isthesiteup.entities.UserEntity;
 import com.lab1.isthesiteup.repositories.UrlCheckRepository;
 
 @Service
@@ -26,7 +27,7 @@ public class UrlCheckService {
         this.urlCheckRepository = urlCheckRepository;
     }
 
-    public UrlCheckEntity checkUrl(String url) {
+    public UrlCheckEntity checkUrl(String url, Long userId) {
         UrlCheckEntity entity = new UrlCheckEntity();
         try {
             URL urlObj = new URL(url);
@@ -50,9 +51,14 @@ public class UrlCheckService {
         LocalDateTime now = LocalDateTime.now();
         entity.setTime(now);                      
 
+        // Сохраняем ID пользователя
+        entity.setUser(new UserEntity());
+        entity.getUser().setId(userId);
+
         urlCheckRepository.save(entity); 
         return entity;
     }
+
 
     public void deleteUrlCheck(Long id) {
         urlCheckRepository.deleteById(id);

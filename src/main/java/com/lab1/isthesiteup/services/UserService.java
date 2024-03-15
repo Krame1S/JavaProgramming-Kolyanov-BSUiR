@@ -18,8 +18,7 @@ public class UserService {
         if (login == null || password == null) {
             return false;
         }
-        UserEntity user = new UserEntity();
-        user = userRepository.findByLogin(login);
+        UserEntity user = userRepository.findByLogin(login);
         if (user != null) {
             return false;
         }
@@ -31,15 +30,15 @@ public class UserService {
         return true;
     }
 
-    public boolean checkUser(String login, String password) {
+    public Long checkUser(String login, String password) {
         if (login == null || password == null) {
-            return false;
+            return null;
         }
         UserEntity user = userRepository.findByLogin(login);
-        if (user == null) {
-            return false;
+        if (user == null || !user.getPassword().equals(password)) {
+            return null;
         }
-        return user.getPassword().equals(password);
+        return user.getId(); // Возвращаем ID пользователя
     }
 
     
