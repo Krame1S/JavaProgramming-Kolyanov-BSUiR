@@ -12,9 +12,7 @@
         <button type="submit">Register</button>
     </form>
 
-    <form th:action="@{/main-page}" method="post">
-      <button class="login-button" onclick="location.href='/login';">Log in</button>
-    </form>  
+      <button class="login-button" onclick="location.href='/login';">Log in</button> 
     
 
     <div class="error-container" th:if="${error}">

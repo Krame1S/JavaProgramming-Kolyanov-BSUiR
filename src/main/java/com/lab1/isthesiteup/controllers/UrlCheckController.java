@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.lab1.isthesiteup.entities.UrlCheckEntity;
 import com.lab1.isthesiteup.services.UrlCheckService;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@SessionAttributes("userId") 
 public class UrlCheckController {
 
     private final UrlCheckService urlCheckService;
@@ -23,21 +25,23 @@ public class UrlCheckController {
         this.urlCheckService = urlCheckService;
     }
 
-    @GetMapping("/main-page")
-    public String showCheckForm(Model model) {
+    @GetMapping("/main-page/{userId}")
+    public String showCheckForm(@PathVariable Long userId, Model model) {
+        model.addAttribute("userId", userId); 
         return "check";
     }
 
-    @PostMapping("/check")
-    public String checkUrl(@RequestParam String url, Model model) {
-        UrlCheckEntity result = urlCheckService.checkUrl(url);
+    @PostMapping("/check/{userId}")
+    public String checkUrl(@PathVariable Long userId, @RequestParam String url, Model model) {
+    UrlCheckEntity result = urlCheckService.checkUrl(url, userId);
         model.addAttribute("message", result.getStatus());
         model.addAttribute("url", result.getUrl());
         model.addAttribute("time", result.getTime());
         return "check";
-    }    
+    }
+   
 
-    private String showUrlChecksForPeriod(String period, Model model) {
+    private String showUrlChecksForPeriod(@PathVariable Long userId,String period, Model model) {
         List<UrlCheckEntity> urlChecks;
         switch (period) {
             case "today":
@@ -53,23 +57,22 @@ public class UrlCheckController {
                 throw new IllegalArgumentException("Invalid period: " + period);
         }
         model.addAttribute("allUrlChecks", urlChecks);
-        model.addAttribute("period", period);   
+        model.addAttribute("period", period);
+        model.addAttribute("userId", userId);
+           
         return "all-checks";
     }
 
-    @GetMapping("/all-checks/{period}")
-    public String showUrlChecks(@PathVariable String period, Model model) {
-        return showUrlChecksForPeriod(period, model);
+    @GetMapping("/{userId}/{period}")
+    public String showUrlChecks(@PathVariable Long userId, @PathVariable String period, Model model) { 
+        return showUrlChecksForPeriod(userId, period, model);
     }
 
 
     @DeleteMapping("/all-checks/{id}/{period}")
     public String deleteUrlCheck(@PathVariable Long id, @PathVariable String period) {
         urlCheckService.deleteUrlCheck(id);
-        return "redirect:/all-checks/" + period;
+        return "redirect:/" + period;
     }
-    
-
-    //@PutMapping("/all-checks/{id}")
     
 }
