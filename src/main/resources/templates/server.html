@@ -4,24 +4,20 @@
     <title>Server Status Checker</title>
 </head>
 <body>
-    <h1>Main page</h1>
+    <h1>CRUD page For Server Entity</h1>
+
+    <h2>Add New Server</h2>
+    
     <div th:if="${error}" class="error-message">
         <p th:text="${error}"></p>
     </div>
 
-    <h2>Check Url Status</h2>
-    <form action="#" th:action="@{/check}" method="post">
-        <input type="text" name="url" placeholder="Enter server URL" required>
-        <button type="submit">Check Status</button>
-    </form>
-
-    <h2>Add New Server</h2>
     <form action="#" th:action="@{/server}" method="post">
         <input type="text" name="url" placeholder="Enter server URL" required>
         <button type="submit">Add Server</button>
     </form>
 
-    <h2>Url Check History</h2>
+    <h2>Servers</h2>
     <ul>
         <li th:each="server : ${servers}">
             <span th:text="${server.url}"></span>
@@ -29,19 +25,12 @@
                 <input type="hidden" name="_method" value="delete" />
                 <button type="submit">Delete</button>
             </form>
-        </li>
-    </ul>
-
-    
-    <ul>
-        <li th:each="server : ${servers}">
-            <span th:text="${server.url}"></span>
             <form action="#" th:action="@{/server/{id}(id=${server.id})}" method="post">
                 <input type="hidden" name="_method" value="put" />
                 <button type="submit">Update</button>
             </form>
         </li>
     </ul>
-    
+
 </body>
 </html>
