@@ -4,32 +4,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.lab1.isthesiteup.entities.CheckEntity;
 import com.lab1.isthesiteup.entities.ServerEntity;
+import com.lab1.isthesiteup.services.CheckService;
 import com.lab1.isthesiteup.services.ServerService;
 
 @Controller
 public class ServerController {
 
     private final ServerService serverService;
+    private final CheckService checkService;
 
-    public ServerController(ServerService serverService) {
+
+    public ServerController(ServerService serverService, CheckService checkService) {
         this.serverService = serverService;
+        this.checkService = checkService;
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String server(Model model) {
         model.addAttribute("servers", serverService.getAllServers());
-        return "index";
-    }
-
-    @PostMapping("/check")
-    public String checkServerStatus(@RequestParam String url, Model model) {
-        CheckEntity check = serverService.checkServerStatus(url);
-        model.addAttribute("url", check.getUrl());
-        model.addAttribute("status", check.getStatus()); 
-        return "checkurl";
+        model.addAttribute("checks", checkService.getAllChecks());
+        return "server";
     }
 
     @PostMapping("/server")
@@ -46,11 +41,17 @@ public class ServerController {
     
     
     @PutMapping("/server/{id}")
-public String updateServer(@PathVariable Long id, @ModelAttribute ServerEntity serverEntity, Model model) {
-    serverService.updateServer(id, serverEntity);
-    model.addAttribute("servers", serverService.getAllServers());
-    return "redirect:/";
-}
+    public String updateServer(@PathVariable Long id, @ModelAttribute ServerEntity server, Model model) {
+        try {
+            serverService.updateServer(id, server);
+            model.addAttribute("servers", serverService.getAllServers());
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to update server: " + e.getMessage());
+            return "redirect:/";
+        }
+    }
+
 
 
     @DeleteMapping("/server/{id}")
