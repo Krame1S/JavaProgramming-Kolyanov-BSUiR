@@ -52,8 +52,6 @@ public class ServerService {
     public ServerEntity updateServerUrl(Long id, String newUrl) {
         ServerEntity server = serverRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Server not found with id: " + id));
-        List<CheckEntity> checksToRemove = checkRepository.findByServerEntityUrl(server.getUrl());
-        checkRepository.deleteAll(checksToRemove);
         server.setUrl(newUrl);
         return serverRepository.save(server);
     }
