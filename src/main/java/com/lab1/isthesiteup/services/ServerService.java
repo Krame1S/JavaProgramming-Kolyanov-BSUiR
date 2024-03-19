@@ -27,14 +27,13 @@ public class ServerService {
             throw new IllegalArgumentException("A server with this URL already exists.");
         }
         return serverRepository.save(server);
-    }
-    
+    }    
 
-    public void updateServer(Long id, ServerEntity server) {
-        ServerEntity existingServer = serverRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Server not found with id " + id));
-        existingServer.setUrl(server.getUrl());
-        serverRepository.save(existingServer);
+    public ServerEntity updateServerUrl(Long id, String newUrl) {
+        ServerEntity server = serverRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Server not found with id: " + id));
+        server.setUrl(newUrl);
+        return serverRepository.save(server);
     }
     
 

@@ -39,18 +39,17 @@ public class ServerController {
         }
     }
     
-    
     @PutMapping("/server/{id}")
-    public String updateServer(@PathVariable Long id, @ModelAttribute ServerEntity server, Model model) {
+    public String updateServer(@PathVariable Long id, @RequestParam String url, Model model) {
         try {
-            serverService.updateServer(id, server);
-            model.addAttribute("servers", serverService.getAllServers());
+            serverService.updateServerUrl(id, url);
             return "redirect:/";
-        } catch (Exception e) {
-            model.addAttribute("error", "Failed to update server: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
             return "redirect:/";
         }
     }
+
 
 
     @DeleteMapping("/server/{id}")
