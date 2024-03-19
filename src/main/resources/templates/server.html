@@ -27,10 +27,13 @@
             </form>
             <form action="#" th:action="@{/server/{id}(id=${server.id})}" method="post">
                 <input type="hidden" name="_method" value="put" />
+                <input type="text" name="url" placeholder="Enter new server URL" required />
                 <button type="submit">Update</button>
             </form>
         </li>
-    </ul>
+
+        <a href="/checks">Go To CRUD Page For Check Entity</a>
+
 
 </body>
 </html>

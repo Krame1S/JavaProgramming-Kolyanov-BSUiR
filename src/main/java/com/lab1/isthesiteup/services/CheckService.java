@@ -1,7 +1,10 @@
 package com.lab1.isthesiteup.services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.lab1.isthesiteup.entities.CheckEntity;
@@ -45,15 +48,21 @@ public class CheckService {
         checkEntity.setServer(serverEntity);
     
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-            if (response.getStatusCode().is2xxSuccessful()) {
-                checkEntity.setStatus(STATUS_UP);
+            restTemplate.getForEntity(url, String.class);
+            checkEntity.setStatus(STATUS_UP); // Assuming 200 OK is the success status
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                checkEntity.setStatus(STATUS_DOWN); // 404 Not Found
             } else {
-                checkEntity.setStatus(STATUS_DOWN);
+                checkEntity.setStatus(INCORRECT_URL); // Other client errors
             }
-        } catch (Exception e) {
+        } catch (RestClientException e) {
+            // Handle other exceptions, such as when the URL is incorrect or the server is down
             checkEntity.setStatus(INCORRECT_URL);
         }
+        
+        
+        
     
         checkRepository.save(checkEntity);
         return checkEntity;
