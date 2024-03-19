@@ -41,3 +41,5 @@ public class ServerService {
     public void deleteServer(Long id) {
         serverRepository.deleteById(id);
     
+    }
+}
