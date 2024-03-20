@@ -28,16 +28,32 @@ public class CheckController {
 
     @PostMapping("/check")
     public String checkServerStatus(@RequestParam String url, Model model) {
-        CheckEntity check = checkService.checkServerStatus(url);
-        model.addAttribute("url", check.getUrl());
-        model.addAttribute("status", check.getStatus()); 
+        // Get the CheckEntity with the status and associated ServerEntity
+        CheckEntity check = checkService.getServerStatus(url);
+
+        // Save the CheckEntity
+        CheckEntity savedCheck = checkService.saveCheckEntity(check);
+
+        // Add the URL and status to the model
+        model.addAttribute("url", savedCheck.getUrl());
+        model.addAttribute("status", savedCheck.getStatus());
+
         return "checkurl";
     }
 
-    @PutMapping("/check/edit/{id}")
+
+
+    @PutMapping("/check/update/{id}")
     public String updateCheck(@PathVariable Long id, @ModelAttribute CheckEntity checkEntity, Model model) {
         checkService.updateCheck(id, checkEntity);
-        return "redirect:/checks";
+        return "redirect:/checks/update";
+    }
+
+    @GetMapping("/checks/update")
+    public String showFormForUpdateCheck(Model model) {
+        List<CheckEntity> checks = checkService.getAllChecks();
+        model.addAttribute("checks", checks);
+        return "update-checks";
     }
 
     @DeleteMapping("/check/delete/{id}")
