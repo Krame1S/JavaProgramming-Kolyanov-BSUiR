@@ -1,5 +1,7 @@
 package com.lab1.isthesiteup.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,13 @@ public class ServerController {
     public ServerController(ServerService serverService, CheckService checkService) {
         this.serverService = serverService;
         this.checkService = checkService;
+    }
+
+    @GetMapping("/servers/status")
+    public String getServersByCheckStatus(@RequestParam String status, Model model) {
+        List<ServerEntity> servers = serverService.findServersByCheckStatus(status);
+        model.addAttribute("servers", servers);
+        return "servers";
     }
 
     @GetMapping("/")

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Servers by Status</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>Servers By Status: <span th:text="${status}"></span></h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="server : ${servers}" th:class="${serverStat.odd}? 'odd'">
+            <td th:text="${server.id}"></td>
+            <td th:text="${server.url}"></td>
+            <td th:text="${server.checks[0].status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <a href="/">Back</a>
+
+
+</body>
+</html>
