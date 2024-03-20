@@ -4,16 +4,10 @@
     <title>Server Status Checker</title>
 </head>
 <body>
-    <h1>CRUD page For Check Entity</h1>
+    <h1>Update page For Check Entity</h1>
     <div th:if="${error}" class="error-message">
         <p th:text="${error}"></p>
     </div>
-
-    <h2>Check Url Status</h2>
-    <form action="#" th:action="@{/check}" method="post">
-        <input type="text" name="url" placeholder="Enter server URL" required>
-        <button type="submit">Check Status</button>
-    </form>
 
     <table>
         <thead>
@@ -30,21 +24,19 @@
                 <td th:text="${check.url}"></td>
                 <td th:text="${check.status}"></td>
                 <td>
-                    <!-- Update action -->
-
-                    <!-- Delete action -->
-                    <form method="post" th:action="@{/check/delete/{id}(id=${check.id})}" id="deleteForm_${check.id}">
-                        <input type="hidden" name="_method" value="DELETE" />
-                        <button type="submit" class="link-button">Delete</button>
+                   
+                    <form action="#" th:action="@{/check/update/{id}(id=${check.id})}" method="post">
+                        <input type="hidden" name="_method" value="put" />
+                        <input type="text" name="url" placeholder="Enter new server URL" required />
+                        <button type="submit">Update</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="/checks/update">Update</a>
 
-    <p><a href="/">Back To Server Page</a></p>
+    <p><a href="/checks">Back To Checks Page</a></p>
 
     
 </body>
