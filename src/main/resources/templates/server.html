@@ -31,9 +31,22 @@
                 <button type="submit">Update</button>
             </form>
         </li>
+    </ul>
 
-        <a href="/checks">Go To CRUD Page For Check Entity</a>
+    <!-- Modified form to restrict status input -->
+    <p>
+        <form action="#" th:action="@{/servers/status}" method="get">
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="">Select status</option>
+                <option value="Site is up">Site is up</option>
+                <option value="Site is down">Site is down</option>
+                <option value="Incorrect URL">Incorrect URL</option>
+            </select>
+            <button type="submit">Find Servers by Status</button>
+        </form>
+    </p>
 
-
+    <a href="/checks">Go To CRUD Page For Check Entity</a>
 </body>
 </html>
