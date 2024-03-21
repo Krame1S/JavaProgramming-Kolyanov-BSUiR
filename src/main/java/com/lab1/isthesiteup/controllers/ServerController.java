@@ -42,7 +42,6 @@ public class ServerController {
             serverService.addServer(server);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
-            // Add error message to the model and redirect back to the form
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/";
         }
@@ -58,8 +57,6 @@ public class ServerController {
             return "redirect:/";
         }
     }
-
-
 
     @DeleteMapping("/server/{id}")
     public String deleteServer(@PathVariable Long id, Model model) {
