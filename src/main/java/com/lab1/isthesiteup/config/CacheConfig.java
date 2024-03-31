@@ -18,7 +18,6 @@ public class CacheConfig {
     public void put(String key, Object value, long expirationTimeMillis) {
         cache.put(key, value);
 
-        // Установка задержки удаления кэша
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.schedule(() -> cache.remove(key), expirationTimeMillis, TimeUnit.MILLISECONDS);
         executorService.shutdown();

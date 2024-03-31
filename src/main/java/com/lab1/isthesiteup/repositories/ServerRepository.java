@@ -1,8 +1,6 @@
 package com.lab1.isthesiteup.repositories;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +9,7 @@ import com.lab1.isthesiteup.entities.ServerEntity;
 
 @Repository
 public interface ServerRepository extends JpaRepository<ServerEntity, Long> {
-    Optional<ServerEntity> findByUrl(String url);
+    ServerEntity findByUrl(String url);
 
      @Query("SELECT s FROM ServerEntity s JOIN s.checks c WHERE c.status = :status")
     List<ServerEntity> findServersByCheckStatus(@Param("status") String status);

@@ -13,8 +13,6 @@ import com.lab1.isthesiteup.repositories.CheckRepository;
 import com.lab1.isthesiteup.repositories.ServerRepository;
 
 import java.util.List;
-import java.util.Optional;
-
 @Service
 public class CheckService {
 
@@ -42,14 +40,14 @@ public class CheckService {
             CheckEntity cachedCheckCopy = createCheckEntityCopy(cachedCheck);
             return cachedCheckCopy;
         }
-
+    
         RestTemplate restTemplate = new RestTemplate();
-        ServerEntity serverEntity = serverRepository.findByUrl(url)
-                .orElseGet(() -> {
-                    ServerEntity newServer = new ServerEntity();
-                    newServer.setUrl(url);
-                    return serverRepository.save(newServer);
-                });
+        ServerEntity serverEntity = serverRepository.findByUrl(url);
+        if (serverEntity == null) {
+            serverEntity = new ServerEntity();
+            serverEntity.setUrl(url);
+            serverEntity = serverRepository.save(serverEntity);
+        }
     
         CheckEntity checkEntity = new CheckEntity();
         checkEntity.setUrl(url);
@@ -58,10 +56,10 @@ public class CheckService {
         try {
             restTemplate.getForEntity(url, String.class);
             checkEntity.setStatus(STATUS_UP);
-
+    
             saveCheckEntity(checkEntity);
             cacheConfig.put(url, checkEntity, 10000);
-        
+    
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 checkEntity.setStatus(STATUS_DOWN);
@@ -88,18 +86,17 @@ public class CheckService {
     }
 
     public void updateCheck(Long id, CheckEntity checkEntity) {
-        Optional<CheckEntity> existingCheck = checkRepository.findById(id);
-        if (existingCheck.isPresent()) {
-            CheckEntity updatedCheck = existingCheck.get();
+        CheckEntity existingCheck = checkRepository.findById(id).orElse(null);
+        if (existingCheck != null) {
+            CheckEntity updatedCheck = existingCheck;
             updatedCheck.setUrl(checkEntity.getUrl());
     
-            // Fetch or create the ServerEntity associated with the updated URL
-            ServerEntity serverEntity = serverRepository.findByUrl(updatedCheck.getUrl())
-                    .orElseGet(() -> {
-                        ServerEntity newServer = new ServerEntity();
-                        newServer.setUrl(updatedCheck.getUrl());
-                        return serverRepository.save(newServer);
-                    });
+            ServerEntity serverEntity = serverRepository.findByUrl(updatedCheck.getUrl());
+            if (serverEntity == null) {
+                serverEntity = new ServerEntity();
+                serverEntity.setUrl(updatedCheck.getUrl());
+                serverEntity = serverRepository.save(serverEntity);
+            }
     
             // Associate the updated CheckEntity with the ServerEntity
             updatedCheck.setServer(serverEntity);

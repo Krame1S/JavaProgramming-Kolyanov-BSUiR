@@ -5,9 +5,9 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+	</parent>	
 	<groupId>com.lab1</groupId>
 	<artifactId>is-the-site-up</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -60,10 +60,9 @@
 		</dependency>
 
 		<dependency>
-    		<groupId>javax.persistence</groupId>
-    		<artifactId>javax.persistence-api</artifactId>
-    		<version>2.2</version>
-		</dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-log4j2</artifactId>
+   		</dependency>
 
 	</dependencies>
 
