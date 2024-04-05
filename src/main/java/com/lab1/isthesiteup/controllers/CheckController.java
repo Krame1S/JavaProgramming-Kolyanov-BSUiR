@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.lab1.isthesiteup.entities.CheckEntity;
+import com.lab1.isthesiteup.entities.Check;
 import com.lab1.isthesiteup.services.CheckService;
 
 import java.util.List;
@@ -21,18 +21,18 @@ public class CheckController {
 
     @GetMapping("/checks")
     public String getAllChecks(Model model) {
-        List<CheckEntity> checks = checkService.getAllChecks();
+        List<Check> checks = checkService.getAllChecks();
         model.addAttribute("checks", checks);
         return "check";
     }
 
     @PostMapping("/check")
     public String checkServerStatus(@RequestParam String url, Model model) {
-        // Get the CheckEntity with the status and associated ServerEntity
-        CheckEntity check = checkService.getServerStatus(url);
+        // Get the check with the status and associated server
+        Check check = checkService.getServerStatus(url);
 
-        // Save the CheckEntity
-        CheckEntity savedCheck = checkService.saveCheckEntity(check);
+        // Save the check
+        Check savedCheck = checkService.saveCheck(check);
 
         // Add the URL and status to the model
         model.addAttribute("url", savedCheck.getUrl());
@@ -44,14 +44,14 @@ public class CheckController {
 
 
     @PutMapping("/check/update/{id}")
-    public String updateCheck(@PathVariable Long id, @ModelAttribute CheckEntity checkEntity, Model model) {
-        checkService.updateCheck(id, checkEntity);
+    public String updateCheck(@PathVariable Long id, @ModelAttribute Check check, Model model) {
+        checkService.updateCheck(id, check);
         return "redirect:/checks/update";
     }
 
     @GetMapping("/checks/update")
     public String showFormForUpdateCheck(Model model) {
-        List<CheckEntity> checks = checkService.getAllChecks();
+        List<Check> checks = checkService.getAllChecks();
         model.addAttribute("checks", checks);
         return "update-checks";
     }

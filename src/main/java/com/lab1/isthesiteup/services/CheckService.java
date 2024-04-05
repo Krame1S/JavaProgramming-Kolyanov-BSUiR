@@ -7,8 +7,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.lab1.isthesiteup.config.CacheConfig;
-import com.lab1.isthesiteup.entities.CheckEntity;
-import com.lab1.isthesiteup.entities.ServerEntity;
+import com.lab1.isthesiteup.entities.Check;
+import com.lab1.isthesiteup.entities.Server;
 import com.lab1.isthesiteup.repositories.CheckRepository;
 import com.lab1.isthesiteup.repositories.ServerRepository;
 
@@ -32,84 +32,84 @@ public class CheckService {
     private final String STATUS_DOWN = "Site is down";
     private final String INCORRECT_URL = "Incorrect URL";
 
-    public List<CheckEntity> getAllChecks() {
+    public List<Check> getAllChecks() {
         return checkRepository.findAll();
     }
 
-    public CheckEntity getServerStatus(String url) {
-        CheckEntity cachedCheck = (CheckEntity) cacheConfig.get(url);
+    public Check getServerStatus(String url) {
+        Check cachedCheck = (Check) cacheConfig.get(url);
         if (cachedCheck != null) {
-            CheckEntity cachedCheckCopy = createCheckEntityCopy(cachedCheck);
+            Check cachedCheckCopy = createCheckCopy(cachedCheck);
             return cachedCheckCopy;
         }
 
         RestTemplate restTemplate = new RestTemplate();
-        ServerEntity serverEntity = serverRepository.findByUrl(url)
+        Server server = serverRepository.findByUrl(url)
                 .orElseGet(() -> {
-                    ServerEntity newServer = new ServerEntity();
+                    Server newServer = new Server();
                     newServer.setUrl(url);
                     return serverRepository.save(newServer);
                 });
     
-        CheckEntity checkEntity = new CheckEntity();
-        checkEntity.setUrl(url);
-        checkEntity.setServer(serverEntity);
+        Check check = new Check();
+        check.setUrl(url);
+        check.setServer(server);
     
         try {
             restTemplate.getForEntity(url, String.class);
-            checkEntity.setStatus(STATUS_UP);
+            check.setStatus(STATUS_UP);
 
-            saveCheckEntity(checkEntity);
-            cacheConfig.put(url, checkEntity, 10000);
+            saveCheck(check);
+            cacheConfig.put(url, check, 10000);
         
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                checkEntity.setStatus(STATUS_DOWN);
+                check.setStatus(STATUS_DOWN);
             } else {
-                checkEntity.setStatus(INCORRECT_URL);
+                check.setStatus(INCORRECT_URL);
             }
         } catch (RestClientException e) {
-            checkEntity.setStatus(INCORRECT_URL);
+            check.setStatus(INCORRECT_URL);
         }
     
-        return checkEntity;
+        return check;
     }
 
-    private CheckEntity createCheckEntityCopy(CheckEntity checkEntity) {
-        CheckEntity copy = new CheckEntity();
-        copy.setStatus(checkEntity.getStatus());
-        copy.setUrl(checkEntity.getUrl());
-        copy.setServer(checkEntity.getServer());
+    private Check createCheckCopy(Check check) {
+        Check copy = new Check();
+        copy.setStatus(check.getStatus());
+        copy.setUrl(check.getUrl());
+        copy.setServer(check.getServer());
         return copy;
     }
 
-    public CheckEntity saveCheckEntity(CheckEntity checkEntity) {
-        return checkRepository.save(checkEntity);
+    public Check saveCheck(Check check) {
+        return checkRepository.save(check);
     }
 
-    public void updateCheck(Long id, CheckEntity checkEntity) {
-        Optional<CheckEntity> existingCheck = checkRepository.findById(id);
+    public void updateCheck(Long id, Check check) {
+        Optional<Check> existingCheck = checkRepository.findById(id);
         if (existingCheck.isPresent()) {
-            CheckEntity updatedCheck = existingCheck.get();
-            updatedCheck.setUrl(checkEntity.getUrl());
+            Check updatedCheck = existingCheck.get();
+            updatedCheck.setUrl(check.getUrl());
     
-            // Fetch or create the ServerEntity associated with the updated URL
-            ServerEntity serverEntity = serverRepository.findByUrl(updatedCheck.getUrl())
+            // Fetch or create the server associated with the updated URL
+            Server server = serverRepository.findByUrl(updatedCheck.getUrl())
                     .orElseGet(() -> {
-                        ServerEntity newServer = new ServerEntity();
+                        Server newServer = new Server();
                         newServer.setUrl(updatedCheck.getUrl());
                         return serverRepository.save(newServer);
                     });
     
-            // Associate the updated CheckEntity with the ServerEntity
-            updatedCheck.setServer(serverEntity);
+            // Associate the updated check with the server
+            updatedCheck.setServer(server);
     
             // Check the server status of the updated URL
             String status = getServerStatus(updatedCheck.getUrl()).getStatus();
             updatedCheck.setStatus(status);
     
             // Save the updated check entity
-            saveCheckEntity(updatedCheck);
+            saveCheck(updatedCheck);
         }
     }
 
