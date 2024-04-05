@@ -11,15 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class ServerEntity {
+public class Server {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String url;
 
-    @OneToMany(mappedBy = "serverEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CheckEntity> checks = new ArrayList<>();
+    @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Check> checks = new ArrayList<>();
 
 
     public Long getId() {
@@ -38,11 +38,11 @@ public class ServerEntity {
         this.url = url;
     }
 
-    public List<CheckEntity> getChecks() {
+    public List<Check> getChecks() {
         return checks;
     }
 
-    public void setChecks(List<CheckEntity> checks) {
+    public void setChecks(List<Check> checks) {
         this.checks = checks;
     }
 }

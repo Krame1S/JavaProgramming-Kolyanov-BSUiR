@@ -7,9 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class CheckEntity {
+@Table(name = "`Check`")
+public class Check {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +21,7 @@ public class CheckEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
-    private ServerEntity serverEntity;
+    private Server server;
 
 
     public String getUrl() {
@@ -46,11 +48,11 @@ public class CheckEntity {
         this.status = status;
     }
 
-    public ServerEntity getServer() {
-        return serverEntity;
+    public Server getServer() {
+        return server;
     }
 
-    public void setServer(ServerEntity server) {
-        this.serverEntity = server;
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

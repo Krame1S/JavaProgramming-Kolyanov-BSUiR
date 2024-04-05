@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.lab1.isthesiteup.entities.ServerEntity;
+import com.lab1.isthesiteup.entities.Server;
 import com.lab1.isthesiteup.services.CheckService;
 import com.lab1.isthesiteup.services.ServerService;
 
@@ -24,7 +24,7 @@ public class ServerController {
 
     @GetMapping("/servers/status")
     public String getServersByCheckStatus(@RequestParam String status, Model model) {
-        List<ServerEntity> servers = serverService.findServersByCheckStatus(status);
+        List<Server> servers = serverService.findServersByCheckStatus(status);
         model.addAttribute("servers", servers);
         return "servers";
     }
@@ -37,7 +37,7 @@ public class ServerController {
     }
 
     @PostMapping("/server")
-    public String addServer(@ModelAttribute ServerEntity server, Model model, RedirectAttributes redirectAttributes) {
+    public String addServer(@ModelAttribute Server server, Model model, RedirectAttributes redirectAttributes) {
         try {
             serverService.addServer(server);
             return "redirect:/";
