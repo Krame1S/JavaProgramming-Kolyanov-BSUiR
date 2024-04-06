@@ -20,6 +20,8 @@ import com.lab1.isthesiteup.services.ServerService;
 @Controller
 public class ServerController {
 
+    private final Logger logger = LoggerFactory.getLogger(ServerController.class);
+
     private final ServerService serverService;
     private final CheckService checkService;
 
@@ -60,6 +62,7 @@ public class ServerController {
     })
     public String addServer(@ModelAttribute Server server, Model model, RedirectAttributes redirectAttributes) {
         try {
+            logger.info("Adding server: {}", server.getUrl());
             serverService.addServer(server);
             logger.info("Server added successfully: {}", server);
             return "redirect:/";
@@ -84,6 +87,7 @@ public class ServerController {
         }
 
         try {
+            logger.info("Updating server URL. Server ID: {}, New URL: {}", id, url);
             serverService.updateServerUrl(id, url);
             logger.info("Server updated successfully. ID: {}, URL: {}", id, url);
             return "redirect:/";
@@ -91,6 +95,10 @@ public class ServerController {
             logger.error("Error updating server: {}", e.getMessage());
             model.addAttribute("error", e.getMessage());
             return "redirect:/";
+        } catch (Exception e) {
+            logger.error("Failed to update server URL", e);
+            handleException(e, model);
+            return "error";
         }
     }
 

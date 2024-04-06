@@ -1,5 +1,6 @@
 package com.lab1.isthesiteup.services;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 import com.lab1.isthesiteup.config.CacheConfig;
@@ -7,8 +8,11 @@ import com.lab1.isthesiteup.entities.Check;
 import com.lab1.isthesiteup.entities.Server;
 import com.lab1.isthesiteup.repositories.CheckRepository;
 import com.lab1.isthesiteup.repositories.ServerRepository;
+
+import jakarta.validation.constraints.Null;
+
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -46,8 +50,8 @@ public class ServerService {
         if (existingServer.isPresent()) {
             throw new IllegalArgumentException("A server with this URL already exists.");
         }
-        return serverRepository.save(server);
-    }    
+    }
+
 
     public Server updateServerUrl(Long id, String newUrl) {
         Server server = serverRepository.findById(id)
@@ -58,9 +62,18 @@ public class ServerService {
         return serverRepository.save(server);
     }
     
+            server.setUrl(newUrl);
+            return serverRepository.save(server);
+        } catch (Exception e) {
+            throw new ServiceException("Failed to update server URL", e);
+        }
+    }
 
     public void deleteServer(Long id) {
-        serverRepository.deleteById(id);
-    
+        try {
+            serverRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new ServiceException("Failed to delete server", e);
+        }
     }
 }

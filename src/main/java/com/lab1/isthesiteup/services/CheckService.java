@@ -13,8 +13,6 @@ import com.lab1.isthesiteup.repositories.CheckRepository;
 import com.lab1.isthesiteup.repositories.ServerRepository;
 
 import java.util.List;
-import java.util.Optional;
-
 @Service
 public class CheckService {
 
@@ -42,7 +40,7 @@ public class CheckService {
             Check cachedCheckCopy = createCheckCopy(cachedCheck);
             return cachedCheckCopy;
         }
-
+    
         RestTemplate restTemplate = new RestTemplate();
         Server server = serverRepository.findByUrl(url)
                 .orElseGet(() -> {
@@ -86,14 +84,12 @@ public class CheckService {
     public Check saveCheck(Check check) {
         return checkRepository.save(check);
     }
-
     public void updateCheck(Long id, Check check) {
         Optional<Check> existingCheck = checkRepository.findById(id);
         if (existingCheck.isPresent()) {
             Check updatedCheck = existingCheck.get();
             updatedCheck.setUrl(check.getUrl());
     
-            // Fetch or create the server associated with the updated URL
             Server server = serverRepository.findByUrl(updatedCheck.getUrl())
                     .orElseGet(() -> {
                         Server newServer = new Server();
@@ -101,14 +97,11 @@ public class CheckService {
                         return serverRepository.save(newServer);
                     });
     
-            // Associate the updated check with the server
             updatedCheck.setServer(server);
     
-            // Check the server status of the updated URL
             String status = getServerStatus(updatedCheck.getUrl()).getStatus();
             updatedCheck.setStatus(status);
     
-            // Save the updated check entity
             saveCheck(updatedCheck);
         }
     }

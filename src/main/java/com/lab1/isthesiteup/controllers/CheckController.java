@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CheckController {
 
     private final CheckService checkService;
+    private final Logger logger = LoggerFactory.getLogger(CheckController.class);
 
     private static final Logger logger = LoggerFactory.getLogger(CheckController.class);
 
@@ -67,8 +69,9 @@ public class CheckController {
         }
         checkService.updateCheck(id, check);
         return "redirect:/checks/update";
-    }
 
+    }
+    
     @GetMapping("/checks/update")
     @Operation(summary = "Show form for updating checks")
     public String showFormForUpdateCheck(Model model) {
@@ -76,6 +79,7 @@ public class CheckController {
         List<Check> checks = checkService.getAllChecks();
         model.addAttribute("checks", checks);
         return "update-checks";
+
     }
 
     @DeleteMapping("/check/delete/{id}")
@@ -85,5 +89,6 @@ public class CheckController {
         logger.info("Deleting check. ID: {}", id);
         checkService.deleteCheck(id);
         return "redirect:/checks";
+
     }
 }

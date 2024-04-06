@@ -7,7 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+	</parent>	
 	<groupId>com.lab1</groupId>
 	<artifactId>is-the-site-up</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -64,8 +64,6 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.4.0</version>
 		</dependency>
-
-
 
 	</dependencies>
 
