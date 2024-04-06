@@ -1,7 +1,6 @@
 package com.lab1.isthesiteup.services;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
@@ -71,11 +70,7 @@ public class CheckService {
             }
         } catch (RestClientException e) {
             check.setStatus(INCORRECT_URL);
-        }
-        
-        
-        
-    
+        }    
         return check;
     }
 
@@ -105,14 +100,11 @@ public class CheckService {
                         return serverRepository.save(newServer);
                     });
     
-            // Associate the updated check with the server
             updatedCheck.setServer(server);
     
-            // Check the server status of the updated URL
             String status = getServerStatus(updatedCheck.getUrl()).getStatus();
             updatedCheck.setStatus(status);
     
-            // Save the updated check entity
             saveCheck(updatedCheck);
         }
     }
