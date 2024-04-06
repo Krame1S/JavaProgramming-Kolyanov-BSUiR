@@ -2,3 +2,102 @@
 2024-04-06 13:16:01,380 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
 2024-04-06 13:16:13,156 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Checking server status for URL: https://github.com/Arcimiendar/MY-LABORATORY
 2024-04-06 13:16:18,727 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 16:17:18,482 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 16:17:19,106 ERROR [http-nio-8080-exec-2] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource favicon.ico.
+2024-04-06 16:17:19,133 WARN  [http-nio-8080-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2024-04-06 16:17:24,982 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting servers by check status: Site is up
+2024-04-06 16:17:28,956 INFO  [http-nio-8080-exec-4] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 16:17:40,236 INFO  [http-nio-8080-exec-5] c.l.i.controllers.ServerController - Getting servers by check status: Site is up
+2024-04-06 16:17:47,645 INFO  [http-nio-8080-exec-6] c.l.i.controllers.ServerController - Getting all servers and checks
+
+2024-04-06 17:00:51,535 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:00:55,516 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource re.
+2024-04-06 17:00:55,554 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource re.]
+2024-04-06 17:10:39,121 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:10:42,369 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource re.
+2024-04-06 17:10:42,373 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource re.]
+2024-04-06 17:13:46,690 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:13:53,590 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource r.
+2024-04-06 17:13:53,590 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource r.]
+2024-04-06 17:13:57,807 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:14:54,478 ERROR [http-nio-8080-exec-3] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource unknown_path.
+2024-04-06 17:14:54,479 WARN  [http-nio-8080-exec-3] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource unknown_path.]
+2024-04-06 17:16:05,169 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:16:08,547 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 17:17:10,200 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:17:27,116 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Server updated successfully. ID: 5, URL: d
+2024-04-06 17:17:27,128 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:17:29,268 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Deleting server. ID: 5
+2024-04-06 17:17:29,283 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Server deleted successfully. ID: 5
+2024-04-06 17:17:29,292 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:17:37,441 ERROR [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:17:37,462 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:20:50,351 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:20:54,108 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:20:56,754 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:20:56,766 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:24:50,506 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:24:54,807 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:24:54,823 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:25:05,481 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:25:53,360 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:25:54,087 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:25:54,791 INFO  [http-nio-8080-exec-4] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:25:56,298 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:26:02,109 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Server added successfully: com.lab1.isthesiteup.entities.Server@772285f6
+2024-04-06 17:26:02,122 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:26:05,611 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:26:05,619 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:27:32,043 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:27:32,120 ERROR [http-nio-8080-exec-2] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource favicon.ico.
+2024-04-06 17:27:32,121 WARN  [http-nio-8080-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2024-04-06 17:27:35,203 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:27:37,938 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:27:37,963 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:31:46,901 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:31:49,800 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:31:49,811 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:31:52,847 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:31:52,856 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:33:45,541 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:33:48,275 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:33:48,281 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:33:52,023 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:33:52,029 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:42:49,091 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:42:52,724 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:42:52,740 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:43:00,733 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 17:44:10,762 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:44:48,166 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource unknown-path.
+2024-04-06 17:44:48,167 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource unknown-path.]
+2024-04-06 17:45:13,795 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:45:30,091 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:45:32,852 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:45:39,694 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 17:46:29,751 INFO  [http-nio-8080-exec-5] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 17:46:32,639 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource checksi.
+2024-04-06 17:46:32,640 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource checksi.]
+2024-04-06 17:47:51,711 INFO  [http-nio-8080-exec-8] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:47:54,772 ERROR [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Error adding server: A server with this URL already exists.
+2024-04-06 17:47:54,781 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:48:57,209 INFO  [http-nio-8080-exec-5] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:49:02,701 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource wre.
+2024-04-06 17:49:02,702 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource wre.]
+2024-04-06 17:49:11,690 ERROR [http-nio-8080-exec-2] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource wr~~e.
+2024-04-06 17:49:11,691 WARN  [http-nio-8080-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource wr~~e.]
+2024-04-06 17:49:16,897 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource wr~~%60e.
+2024-04-06 17:49:16,898 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource wr~~%60e.]
+2024-04-06 17:49:27,812 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource wr~~%60e.
+2024-04-06 17:49:27,813 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource wr~~%60e.]
+2024-04-06 17:49:43,215 INFO  [http-nio-8080-exec-3] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:50:24,961 INFO  [http-nio-8080-exec-2] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 17:51:00,936 ERROR [http-nio-8080-exec-2] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource unknown-path.
+2024-04-06 17:51:00,937 WARN  [http-nio-8080-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource unknown-path.]
+2024-04-06 17:55:26,531 ERROR [http-nio-8080-exec-9] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource unknown-path.
+2024-04-06 17:55:26,531 WARN  [http-nio-8080-exec-9] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource unknown-path.]
+2024-04-06 18:04:50,867 INFO  [http-nio-8080-exec-7] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 18:05:50,678 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Checking server status for URL: https://www.vk.com
+2024-04-06 18:06:52,167 INFO  [http-nio-8080-exec-5] c.l.i.controllers.CheckController - Checking server status for URL: https://www.vk.com
+2024-04-06 18:10:27,055 INFO  [http-nio-8080-exec-8] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 18:10:51,070 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks

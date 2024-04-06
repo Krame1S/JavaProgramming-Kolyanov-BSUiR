@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Oops! Something Went Wrong</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-danger">Error 400: Bad Request</h1>
+    <p>It seems like there was a problem with your request. Please check the details and try again.</p>
+    <p th:text="${errorMessage}">Error details will be displayed here.</p>
+    <a href="/" class="btn btn-primary">Go Home</a>
+</div>
+</body>
+</html>

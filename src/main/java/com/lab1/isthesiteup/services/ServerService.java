@@ -54,6 +54,10 @@ public class ServerService {
                 .orElseThrow(() -> new IllegalArgumentException("Server not found with id: " + id));
         List<Check> checksToRemove = checkRepository.findByServerUrl(server.getUrl());
         checkRepository.deleteAll(checksToRemove);
+        // if the server url already exists do not update it
+        if (serverRepository.findByUrl(newUrl).isPresent()) {
+            throw new IllegalArgumentException("A server with this URL already exists.");
+        }
         server.setUrl(newUrl);
         return serverRepository.save(server);
     }
