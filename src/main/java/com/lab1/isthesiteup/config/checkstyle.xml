@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <!-- TreeWalker module is the main module that contains all the checks that are performed on the source code -->
+    <module name="TreeWalker">
+        <!-- Indentation module checks the indentation of the code according to the specified properties -->
+        <module name="Indentation">
+            <!-- The basic offset for indentation, typically 4 spaces or 1 tab -->
+            <property name="basicOffset" value="4"/>
+            <!-- Adjustment for braces, typically 0 to follow the basic offset -->
+            <property name="braceAdjustment" value="0"/>
+            <!-- Indentation for case statements within switch blocks -->
+            <property name="caseIndent" value="4"/>
+            <!-- Indentation for throws statements within method declarations -->
+            <property name="throwsIndent" value="4"/>
+            <!-- Indentation for line wrapping, typically 4 spaces or 1 tab -->
+            <property name="lineWrappingIndentation" value="4"/>
+            <!-- Indentation for array initialization -->
+            <property name="arrayInitIndent" value="4"/>
+        </module>
+        <!-- EmptyBlock module checks for empty blocks of code -->
+        <module name="EmptyBlock"/>
+        <!-- JavadocStyle module checks the style of Javadoc comments -->
+        <module name="JavadocStyle"/>
+        <!-- NeedBraces module checks if braces are needed around single-statement blocks -->
+        <module name="NeedBraces"/>
+        <!-- RightCurly module checks the placement of right curly braces -->
+        <module name="RightCurly"/>
+        <!-- WhitespaceAround module checks for whitespace around operators and after keywords -->
+        <module name="WhitespaceAround">
+            <!-- Allows empty constructors without braces -->
+            <property name="allowEmptyConstructors" value="true"/>
+        </module>
+    </module>
+</module>

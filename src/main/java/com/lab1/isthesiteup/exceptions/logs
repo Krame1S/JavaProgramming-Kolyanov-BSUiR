@@ -1,0 +1,4 @@
+2024-04-06 13:15:58,777 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-06 13:16:01,380 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-06 13:16:13,156 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Checking server status for URL: https://github.com/Arcimiendar/MY-LABORATORY
+2024-04-06 13:16:18,727 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
