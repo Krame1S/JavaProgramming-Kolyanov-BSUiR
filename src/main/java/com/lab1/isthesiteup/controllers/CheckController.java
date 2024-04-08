@@ -2,8 +2,6 @@ package com.lab1.isthesiteup.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,10 +33,6 @@ public class CheckController {
 
     @PostMapping("/check")
     @Operation(summary = "Check server status for a given URL")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Server status checked successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid URL provided")
-    })
     public String checkServerStatus(@RequestParam @Parameter(description = "URL to check") String url, Model model) {
         logger.info("Checking server status for URL: {}", url);
         if (url == null || url.isEmpty()) {
@@ -55,10 +49,6 @@ public class CheckController {
 
     @PutMapping("/check/update/{id}")
     @Operation(summary = "Update a check by ID")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Check updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid check details provided")
-    })
     public String updateCheck(@PathVariable Long id, @ModelAttribute Check check, Model model) {
         logger.info("Updating check. ID: {}, Check: {}", id, check);
         if (check == null) {
@@ -80,7 +70,6 @@ public class CheckController {
 
     @DeleteMapping("/check/delete/{id}")
     @Operation(summary = "Delete a check by ID")
-    @ApiResponse(responseCode = "200", description = "Check deleted successfully")
     public String deleteCheck(@PathVariable Long id, Model model) {
         logger.info("Deleting check. ID: {}", id);
         checkService.deleteCheck(id);

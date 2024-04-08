@@ -92,7 +92,6 @@ public class CheckService {
             Check updatedCheck = existingCheck.get();
             updatedCheck.setUrl(check.getUrl());
     
-            // Fetch or create the server associated with the updated URL
             Server server = serverRepository.findByUrl(updatedCheck.getUrl())
                     .orElseGet(() -> {
                         Server newServer = new Server();
@@ -106,10 +105,21 @@ public class CheckService {
             updatedCheck.setStatus(status);
     
             saveCheck(updatedCheck);
+
+            cacheConfig.remove(check.getUrl());
+
         }
     }
 
     public void deleteCheck(Long id) {
-        checkRepository.deleteById(id);
+        Optional<Check> checkOptional = checkRepository.findById(id);
+        if (checkOptional.isPresent()) {
+            Check check = checkOptional.get();
+
+            checkRepository.deleteById(id);
+
+            cacheConfig.remove(check.getUrl());
+        }
     }
+
 }

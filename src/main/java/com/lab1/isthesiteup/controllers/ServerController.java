@@ -2,11 +2,7 @@ package com.lab1.isthesiteup.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,10 +28,6 @@ public class ServerController {
 
     @GetMapping("/servers/status")
     @Operation(summary = "Get servers by check status")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Servers retrieved successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid status provided")
-    })
     public String getServersByCheckStatus(@RequestParam @Parameter(description = "Check status") String status, Model model) {
         logger.info("Getting servers by check status: {}", status);
         List<Server> servers = serverService.findServersByCheckStatus(status);
@@ -54,10 +46,6 @@ public class ServerController {
 
     @PostMapping("/server")
     @Operation(summary = "Add a new server")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Server added successfully"),
-        @ApiResponse(responseCode = "400", description = "Error adding server")
-    })
     public String addServer(@ModelAttribute Server server, Model model, RedirectAttributes redirectAttributes) {
         try {
             serverService.addServer(server);
@@ -71,11 +59,6 @@ public class ServerController {
     }
 
     @PutMapping("/server/{id}")
-    @Operation(summary = "Update a server by ID")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Server updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Error updating server")
-    })
     public String updateServer(@PathVariable Long id, @RequestParam @Parameter(description = "New server URL") String url, Model model) {
         if (url == null || url.isEmpty()) {
             String errorMessage = "URL cannot be empty";
@@ -96,7 +79,6 @@ public class ServerController {
 
     @DeleteMapping("/server/{id}")
     @Operation(summary = "Delete a server by ID")
-    @ApiResponse(responseCode = "200", description = "Server deleted successfully")
     public String deleteServer(@PathVariable Long id, Model model) {
         logger.info("Deleting server. ID: {}", id);
         serverService.deleteServer(id);
