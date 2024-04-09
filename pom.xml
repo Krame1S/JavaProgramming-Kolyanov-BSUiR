@@ -17,7 +17,8 @@
 		<java.version>17</java.version>
 		<thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		    <sonar.organization>krame1s</sonar.organization>
+		<sonar.organization>krame1s</sonar.organization>
+		<sonar.projectKey>Krame1S_JavaProgramming-Kolyanov</sonar.projectKey>
 	</properties>
 	
 	<dependencies>
