@@ -11,9 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan("com.lab1.isthesiteup.entities")
 @EnableCaching
 public class IsTheSiteUpApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(IsTheSiteUpApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IsTheSiteUpApplication.class, args);
+    }
 
 }

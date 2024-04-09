@@ -1,5 +1,6 @@
 package com.lab1.isthesiteup.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -20,7 +21,9 @@ public class CheckService {
 
     private final CheckRepository checkRepository;
     private final ServerRepository serverRepository;
-    private final CacheConfig cacheConfig;
+    
+    @Autowired
+    private CacheConfig cacheConfig;
 
     public CheckService(ServerRepository serverRepository, CheckRepository checkRepository, CacheConfig cacheConfig) {
         this.serverRepository = serverRepository;
