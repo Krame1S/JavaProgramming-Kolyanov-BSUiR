@@ -97,7 +97,30 @@ class ServerServiceTest {
         assertEquals(newUrl, updatedServer.getUrl());
     }
     
+    @Test
+    void testUpdateServerUrl_ThrowsExceptionWhenUrlExists() {
+        // Prepare test data
+        Long serverId = 1L;
+        String newUrl = "http://newexample.com";
+        Server existingServer = new Server();
+        existingServer.setId(2L); // Assuming a different server ID to simulate a new server
+        existingServer.setUrl(newUrl);
     
+        // Mock serverRepository to return the server by ID
+        when(serverRepository.findById(serverId)).thenReturn(Optional.of(new Server())); // Assuming a different server object
+        // Mock serverRepository to indicate that the new URL already exists
+        when(serverRepository.findByUrl(newUrl)).thenReturn(Optional.of(existingServer));
+    
+        // Call the method under test and expect an IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> {
+            serverService.updateServerUrl(serverId, newUrl);
+        });
+    
+        // Verify interactions
+        verify(serverRepository, times(1)).findById(serverId);
+        verify(serverRepository, times(1)).findByUrl(newUrl);
+    }
+        
     
     @Test
     void testDeleteServer() {
