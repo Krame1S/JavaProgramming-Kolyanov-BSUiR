@@ -1,7 +1,2 @@
-src/main/resources/templates/check.html
-src/main/resources/templates/checkurl.html
-src/main/resources/templates/error-400.html
-src/main/resources/templates/error-500.html
-src/main/resources/templates/error.html
-src/main/resources/templates/server.html
-src/main/resources/templates/servers.html src/main/resources/templates/update-checks.html
+*.html
+logs
