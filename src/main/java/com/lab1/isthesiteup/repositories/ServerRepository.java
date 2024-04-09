@@ -15,6 +15,4 @@ public interface ServerRepository extends JpaRepository<Server, Long> {
 
     @Query("SELECT s FROM Server s JOIN s.checks c WHERE c.status = :status")
     List<Server> findServersByCheckStatus(@Param("status") String status);
-
-    //@Query(value = "", nativeQuery = true)
 }

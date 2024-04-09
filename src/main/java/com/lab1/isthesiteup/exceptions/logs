@@ -8,3 +8,75 @@
 2024-04-08 14:15:19,723 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
 2024-04-08 14:15:44,136 ERROR [http-nio-8080-exec-2] c.l.i.e.GlobalExceptionHandler - Internal server error: No static resource unknown-path.
 2024-04-08 14:15:44,138 WARN  [http-nio-8080-exec-2] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource unknown-path.]
+2024-04-09 09:51:02,345 ERROR [http-nio-8080-exec-1] c.l.i.e.GlobalExceptionHandler - Internal server error: Request method 'GET' is not supported
+2024-04-09 09:51:02,351 WARN  [http-nio-8080-exec-1] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2024-04-09 09:51:07,924 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-09 10:03:57,328 INFO  [http-nio-8080-exec-6] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-09 10:04:01,846 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:20,220 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:21,850 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:33,448 INFO  [http-nio-8080-exec-1] c.l.i.controllers.ServerController - Getting all servers and checks
+2024-04-09 10:04:37,443 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:41,867 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 52
+2024-04-09 10:04:41,911 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:42,809 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Deleting check. ID: 54
+2024-04-09 10:04:42,821 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:43,790 INFO  [http-nio-8080-exec-5] c.l.i.controllers.CheckController - Deleting check. ID: 55
+2024-04-09 10:04:43,824 INFO  [http-nio-8080-exec-7] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:48,773 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 56
+2024-04-09 10:04:48,794 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:49,919 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Deleting check. ID: 58
+2024-04-09 10:04:49,939 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:53,611 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 59
+2024-04-09 10:04:53,632 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:54,634 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Deleting check. ID: 60
+2024-04-09 10:04:54,653 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:04:57,827 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 61
+2024-04-09 10:04:57,842 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:00,891 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 62
+2024-04-09 10:05:00,907 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:03,972 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 63
+2024-04-09 10:05:03,990 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:06,830 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 64
+2024-04-09 10:05:06,843 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:09,910 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 65
+2024-04-09 10:05:09,925 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:12,819 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 66
+2024-04-09 10:05:12,835 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:15,709 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 67
+2024-04-09 10:05:15,723 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:17,144 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Deleting check. ID: 68
+2024-04-09 10:05:17,171 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:17,383 INFO  [http-nio-8080-exec-5] c.l.i.controllers.CheckController - Deleting check. ID: 69
+2024-04-09 10:05:21,199 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 69
+2024-04-09 10:05:21,216 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:22,405 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Deleting check. ID: 71
+2024-04-09 10:05:22,425 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:24,300 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 72
+2024-04-09 10:05:24,326 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:26,450 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 73
+2024-04-09 10:05:26,467 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:28,401 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Deleting check. ID: 70
+2024-04-09 10:05:28,419 INFO  [http-nio-8080-exec-2] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:05:32,796 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:07:34,324 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Checking server status for URL: https://github.com/Arcimiendar/MY-LABORATORY
+2024-04-09 10:07:36,678 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:08:13,026 INFO  [http-nio-8080-exec-3] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:08:14,667 INFO  [http-nio-8080-exec-4] c.l.i.controllers.CheckController - Getting all checks
+2024-04-09 10:12:56,314 WARN  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2024-04-09 10:12:56,345 WARN  [restartedMain] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2024-04-09 10:12:56,439 ERROR [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2024-04-09 10:31:36,936 INFO  [http-nio-8080-exec-1] c.l.i.controllers.CheckController - Getting all checks

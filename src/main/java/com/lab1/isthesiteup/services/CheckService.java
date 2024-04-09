@@ -122,4 +122,20 @@ public class CheckService {
         }
     }
 
-}
+    public void bulkUpdateServerStatusThroughChecks(List<Long> serverIds, String newStatus) {
+        serverIds.stream()
+            .map(serverRepository::findById)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .forEach(server -> {
+                // Найти все проверки для текущего сервера
+                List<Check> checks = checkRepository.findByServerUrl(server.getUrl());
+                // Обновить статус каждой проверки
+                checks.forEach(check -> {
+                    check.setStatus(newStatus);
+                    // Сохранить обновленную проверку
+                    checkRepository.save(check);
+                });
+            });
+    }
+}    
