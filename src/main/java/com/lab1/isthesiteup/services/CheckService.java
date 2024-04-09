@@ -73,16 +73,17 @@ public class CheckService {
         return check;
     }
 
+    public Check saveCheck(Check check) {
+        return checkRepository.save(check);
+    }
+
+
     private Check createCheckCopy(Check check) {
         Check copy = new Check();
         copy.setStatus(check.getStatus());
         copy.setUrl(check.getUrl());
         copy.setServer(check.getServer());
         return copy;
-    }
-
-    public Check saveCheck(Check check) {
-        return checkRepository.save(check);
     }
 
     public void updateCheck(Long id, Check check) {
