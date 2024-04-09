@@ -16,6 +16,8 @@ import com.lab1.isthesiteup.services.ServerService;
 @Controller
 public class ServerController {
 
+    private static final String SERVERS = "servers";
+    private static final String REDIRECT = "redirect:/";
     private final ServerService serverService;
     private final CheckService checkService;
 
@@ -31,15 +33,15 @@ public class ServerController {
     public String getServersByCheckStatus(@RequestParam @Parameter(description = "Check status") String status, Model model) {
         logger.info("Getting servers by check status: {}", status);
         List<Server> servers = serverService.findServersByCheckStatus(status);
-        model.addAttribute("servers", servers);
-        return "servers";
+        model.addAttribute(SERVERS, servers);
+        return SERVERS;
     }
 
     @GetMapping("/")
     @Operation(summary = "Get all servers and checks")
     public String server(Model model) {
         logger.info("Getting all servers and checks");
-        model.addAttribute("servers", serverService.getAllServers());
+        model.addAttribute(SERVERS, serverService.getAllServers());
         model.addAttribute("checks", checkService.getAllChecks());
         return "server";
     }
@@ -50,11 +52,11 @@ public class ServerController {
         try {
             serverService.addServer(server);
             logger.info("Server added successfully: {}", server);
-            return "redirect:/";
+            return REDIRECT;
         } catch (IllegalArgumentException e) {
             logger.error("Error adding server: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/";
+            return REDIRECT;
         }
     }
 
@@ -69,11 +71,11 @@ public class ServerController {
         try {
             serverService.updateServerUrl(id, url);
             logger.info("Server updated successfully. ID: {}, URL: {}", id, url);
-            return "redirect:/";
+            return REDIRECT;
         } catch (IllegalArgumentException e) {
             logger.error("Error updating server: {}", e.getMessage());
             model.addAttribute("error", e.getMessage());
-            return "redirect:/";
+            return REDIRECT;
         }
     }
 
@@ -83,6 +85,6 @@ public class ServerController {
         logger.info("Deleting server. ID: {}", id);
         serverService.deleteServer(id);
         logger.info("Server deleted successfully. ID: {}", id);
-        return "redirect:/";
+        return REDIRECT;
     }
 }

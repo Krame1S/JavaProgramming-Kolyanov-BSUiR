@@ -28,9 +28,9 @@ public class CheckService {
         this.cacheConfig = cacheConfig;
     }
 
-    private final String STATUS_UP = "Site is up";
-    private final String STATUS_DOWN = "Site is down";
-    private final String INCORRECT_URL = "Incorrect URL";
+    private static final String STATUSUP = "Site is up";
+    private static final String STATUSDOWN = "Site is down";
+    private static final String INCORRECTURL = "Incorrect URL";
 
     public List<Check> getAllChecks() {
         return checkRepository.findAll();
@@ -39,8 +39,7 @@ public class CheckService {
     public Check getServerStatus(String url) {
         Check cachedCheck = (Check) cacheConfig.get(url);
         if (cachedCheck != null) {
-            Check cachedCheckCopy = createCheckCopy(cachedCheck);
-            return cachedCheckCopy;
+            return createCheckCopy(cachedCheck);
         }
 
         RestTemplate restTemplate = new RestTemplate();
@@ -57,19 +56,19 @@ public class CheckService {
     
         try {
             restTemplate.getForEntity(url, String.class);
-            check.setStatus(STATUS_UP);
+            check.setStatus(STATUSUP);
 
             saveCheck(check);
             cacheConfig.put(url, check, 10000);
         
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                check.setStatus(STATUS_DOWN);
+                check.setStatus(STATUSDOWN);
             } else {
-                check.setStatus(INCORRECT_URL);
+                check.setStatus(INCORRECTURL);
             }
         } catch (RestClientException e) {
-            check.setStatus(INCORRECT_URL);
+            check.setStatus(INCORRECTURL);
         }    
         return check;
     }

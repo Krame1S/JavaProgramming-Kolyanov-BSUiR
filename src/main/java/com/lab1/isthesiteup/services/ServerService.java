@@ -21,8 +21,7 @@ public class ServerService {
     }
 
     public List<Server> findServersByCheckStatus(String status) {
-        List<Server> servers = serverRepository.findServersByCheckStatus(status);
-        return servers;
+        return serverRepository.findServersByCheckStatus(status);
     }
 
     public List<Server> getAllServers() {
