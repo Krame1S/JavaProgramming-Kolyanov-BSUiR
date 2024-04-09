@@ -37,6 +37,7 @@ public class CheckController {
     @PostMapping("/check")
     @Operation(summary = "Check server status for a given URL")
     public String checkServerStatus(@RequestParam @Parameter(description = "URL to check") String url, Model model) {
+        url = url.replaceAll("[\n\r]", "_");
         logger.info("Checking server status for URL: {}", url);
         if (url == null || url.isEmpty()) {
             logger.error("Invalid URL provided");

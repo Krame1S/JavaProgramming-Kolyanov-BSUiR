@@ -31,6 +31,7 @@ public class ServerController {
     @GetMapping("/servers/status")
     @Operation(summary = "Get servers by check status")
     public String getServersByCheckStatus(@RequestParam @Parameter(description = "Check status") String status, Model model) {
+        status = status.replaceAll("[\n\r]", "_");
         logger.info("Getting servers by check status: {}", status);
         List<Server> servers = serverService.findServersByCheckStatus(status);
         model.addAttribute(SERVERS, servers);
@@ -70,7 +71,8 @@ public class ServerController {
 
         try {
             serverService.updateServerUrl(id, url);
-            logger.info("Server updated successfully. ID: {}, URL: {}", id, url);
+            url = url.replaceAll("[\n\r]", "_");
+            logger.info("Server updated successfully. URL: {}", url);
             return REDIRECT;
         } catch (IllegalArgumentException e) {
             logger.error("Error updating server: {}", e.getMessage());
