@@ -7,7 +7,7 @@ import com.lab1.isthesiteup.entities.Server;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class ServerRepositoryTest {
+class ServerRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -16,7 +16,7 @@ public class ServerRepositoryTest {
     private ServerRepository serverRepository;
 
     @Test
-    public void testFindByUrl() {
+    void testFindByUrl() {
         Server server = new Server();
         server.setUrl("http://example.com");
         entityManager.persist(server);

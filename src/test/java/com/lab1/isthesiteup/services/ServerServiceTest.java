@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ServerServiceTest {
+class ServerServiceTest {
 
     @Mock
     private ServerRepository serverRepository;
@@ -22,7 +22,7 @@ public class ServerServiceTest {
     private ServerService serverService;
 
     @Test
-    public void testAddServer() {
+    void testAddServer() {
         Server server = new Server();
         server.setUrl("http://example.com");
 
@@ -38,7 +38,7 @@ public class ServerServiceTest {
     }
 
     @Test
-    public void testAddServer_ServerAlreadyExists() {
+    void testAddServer_ServerAlreadyExists() {
         Server server = new Server();
         server.setUrl("http://example.com");
     
@@ -75,7 +75,7 @@ public class ServerServiceTest {
     // }
     
     @Test
-    public void testDeleteServer() {
+    void testDeleteServer() {
         Long id = 1L;
     
         doNothing().when(serverRepository).deleteById(id);

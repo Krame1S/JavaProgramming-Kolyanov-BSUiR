@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 @DataJpaTest
-public class CheckRepositoryTest {
+class CheckRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -18,7 +18,7 @@ public class CheckRepositoryTest {
     private CheckRepository checkRepository;
 
     @Test
-    public void testFindByServerUrl() {
+    void testFindByServerUrl() {
         Check check = new Check();
         check.setUrl("http://example.com");
         entityManager.persist(check);

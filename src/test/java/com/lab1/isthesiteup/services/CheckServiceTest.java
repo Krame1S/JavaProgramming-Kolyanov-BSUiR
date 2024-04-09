@@ -11,14 +11,12 @@ import com.lab1.isthesiteup.config.CacheConfig;
 import com.lab1.isthesiteup.entities.Check;
 import com.lab1.isthesiteup.repositories.CheckRepository;
 import com.lab1.isthesiteup.repositories.ServerRepository;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {CheckService.class, CacheConfig.class})
-public class CheckServiceTest {
+class CheckServiceTest {
 
     @Mock
     private CheckRepository checkRepository;
@@ -48,7 +46,7 @@ public class CheckServiceTest {
     // }
 
     @Test
-    public void testSaveCheck() {
+    void testSaveCheck() {
         Check check = new Check();
         check.setUrl("http://example.com");
         check.setStatus("Site is up");
