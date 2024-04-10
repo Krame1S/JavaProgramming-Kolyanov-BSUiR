@@ -1,9 +1,6 @@
 package com.lab1.isthesiteup.services;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.lab1.isthesiteup.config.CacheConfig;
@@ -29,9 +26,6 @@ public class CheckService {
     }
 
     private static final String STATUSUP = "Site is up";
-    private static final String STATUSDOWN = "Site is down";
-    private static final String INCORRECTURL = "Incorrect URL";
-
     public List<Check> getAllChecks() {
         return checkRepository.findAll();
     }
@@ -48,23 +42,13 @@ public class CheckService {
         Check check = new Check();
         check.setUrl(url);
         check.setServer(server);
-    
-        try {
-            restTemplate.getForEntity(url, String.class);
-            check.setStatus(STATUSUP);
 
-            saveCheck(check);
-            cacheConfig.put(url, check, 10000);
-        
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                check.setStatus(STATUSDOWN);
-            } else {
-                check.setStatus(INCORRECTURL);
-            }
-        } catch (RestClientException e) {
-            check.setStatus(INCORRECTURL);
-        }    
+        restTemplate.getForEntity(url, String.class);
+        check.setStatus(STATUSUP);
+
+        saveCheck(check);
+        cacheConfig.put(url, check, 10000);
+  
         return check;
     }
 
