@@ -37,11 +37,6 @@ public class CheckService {
     }
 
     public Check getServerStatus(String url) {
-        Check cachedCheck = (Check) cacheConfig.get(url);
-        if (cachedCheck != null) {
-            return createCheckCopy(cachedCheck);
-        }
-
         RestTemplate restTemplate = new RestTemplate();
         Server server = serverRepository.findByUrl(url)
                 .orElseGet(() -> {
@@ -75,15 +70,6 @@ public class CheckService {
 
     public Check saveCheck(Check check) {
         return checkRepository.save(check);
-    }
-
-
-    private Check createCheckCopy(Check check) {
-        Check copy = new Check();
-        copy.setStatus(check.getStatus());
-        copy.setUrl(check.getUrl());
-        copy.setServer(check.getServer());
-        return copy;
     }
 
     public void updateCheck(Long id, Check check) {

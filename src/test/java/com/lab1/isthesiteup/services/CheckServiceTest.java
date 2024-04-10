@@ -88,6 +88,67 @@ class CheckServiceTest {
         verify(serverRepository, times(2)).findByUrl(anyString());
         verify(checkRepository, times(2)).save(any(Check.class));
     }
+
+    @Test
+    void testUpdateCheck_CreatesNewServer() {
+        // Prepare test data
+        Long checkId = 1L;
+        String newUrl = "http://newexample.com";
+        Check check = new Check();
+        check.setId(checkId);
+        check.setUrl(newUrl);
+    
+        // Mock checkRepository to return the check for the given ID
+        when(checkRepository.findById(checkId)).thenReturn(Optional.of(check));
+    
+        // Mock serverRepository to indicate that the server URL does not exist
+        when(serverRepository.findByUrl(newUrl)).thenReturn(Optional.empty());
+    
+        // Mock serverRepository to return a new server when save is called
+        Server newServer = new Server();
+        newServer.setUrl(newUrl);
+        when(serverRepository.save(any(Server.class))).thenReturn(newServer);
+    
+        // Call the method under test
+        checkService.updateCheck(checkId, check);
+    
+        // Verify interactions
+        verify(checkRepository, times(1)).findById(checkId);
+        verify(serverRepository, times(2)).findByUrl(newUrl);
+        verify(serverRepository, times(2)).save(any(Server.class));
+        verify(cacheConfig, times(1)).remove(newUrl);
+    }
+
+    @Test
+    void testUpdateCheck_CheckExists() {
+        // Prepare test data
+        Long checkId = 1L;
+        String newUrl = "http://newexample.com";
+        Check check = new Check();
+        check.setId(checkId);
+        check.setUrl(newUrl);
+    
+        // Mock checkRepository to return the check for the given ID
+        when(checkRepository.findById(checkId)).thenReturn(Optional.of(check));
+    
+        // Mock serverRepository to indicate that the server URL does not exist
+        when(serverRepository.findByUrl(newUrl)).thenReturn(Optional.empty());
+    
+        // Mock serverRepository to return a new server when save is called
+        Server newServer = new Server();
+        newServer.setUrl(newUrl);
+        when(serverRepository.save(any(Server.class))).thenReturn(newServer);
+    
+        // Call the method under test
+        checkService.updateCheck(checkId, check);
+    
+        // Verify interactions
+        verify(checkRepository, times(1)).findById(checkId);
+        verify(serverRepository, times(2)).findByUrl(newUrl);
+        verify(serverRepository, times(2)).save(any(Server.class));
+        verify(cacheConfig, times(1)).remove(newUrl);
+    }
+    
     
     @Test
     void testDeleteCheck() {
@@ -104,6 +165,24 @@ class CheckServiceTest {
         verify(checkRepository, times(1)).findById(1L);
         verify(checkRepository, times(1)).deleteById(1L);
     }
+
+    @Test
+    void testDeleteCheck_CheckDoesNotExist() {
+        // Prepare test data
+        Long checkId = 1L;
+    
+        // Mock checkRepository to indicate that the check does not exist
+        when(checkRepository.findById(checkId)).thenReturn(Optional.empty());
+    
+        // Call the method under test
+        checkService.deleteCheck(checkId);
+    
+        // Verify interactions
+        verify(checkRepository, times(1)).findById(checkId);
+        verify(checkRepository, never()).deleteById(anyLong());
+        verify(cacheConfig, never()).remove(anyString());
+    }
+    
  
     @Test
     void testBulkUpdateServerStatusThroughChecks() {
