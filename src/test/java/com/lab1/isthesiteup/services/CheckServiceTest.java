@@ -149,6 +149,28 @@ class CheckServiceTest {
         verify(cacheConfig, times(1)).remove(newUrl);
     }
     
+    @Test
+    void testUpdateCheck_CheckDoesNotExist() {
+        // Prepare test data
+        Long checkId = 1L;
+        Check check = new Check();
+        check.setId(checkId);
+        check.setUrl("http://example.com");
+    
+        // Mock checkRepository to indicate that the check does not exist
+        when(checkRepository.findById(checkId)).thenReturn(Optional.empty());
+    
+        // Call the method under test
+        checkService.updateCheck(checkId, check);
+    
+        // Verify interactions
+        verify(checkRepository, times(1)).findById(checkId);
+        // Verify that no further interactions with serverRepository or cacheConfig occurred
+        verify(serverRepository, never()).findByUrl(anyString());
+        verify(serverRepository, never()).save(any(Server.class));
+        verify(cacheConfig, never()).remove(anyString());
+    }
+    
     
     @Test
     void testDeleteCheck() {
