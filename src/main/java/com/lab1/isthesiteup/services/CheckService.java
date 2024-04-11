@@ -1,6 +1,9 @@
 package com.lab1.isthesiteup.services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.lab1.isthesiteup.config.CacheConfig;
@@ -26,11 +29,19 @@ public class CheckService {
     }
 
     private static final String STATUSUP = "Site is up";
+    private static final String STATUSDOWN = "Site is down";
+    private static final String INCORRECTURL = "Incorrect URL";
+
     public List<Check> getAllChecks() {
         return checkRepository.findAll();
     }
 
     public Check getServerStatus(String url) {
+        Check cachedCheck = (Check) cacheConfig.get(url);
+        if (cachedCheck != null) {
+            return createCheckCopy(cachedCheck);
+        }
+
         RestTemplate restTemplate = new RestTemplate();
         Server server = serverRepository.findByUrl(url)
                 .orElseGet(() -> {
@@ -42,18 +53,37 @@ public class CheckService {
         Check check = new Check();
         check.setUrl(url);
         check.setServer(server);
+    
+        try {
+            restTemplate.getForEntity(url, String.class);
+            check.setStatus(STATUSUP);
 
-        restTemplate.getForEntity(url, String.class);
-        check.setStatus(STATUSUP);
-
-        saveCheck(check);
-        cacheConfig.put(url, check, 10000);
-  
+            saveCheck(check);
+            cacheConfig.put(url, check, 10000);
+        
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                check.setStatus(STATUSDOWN);
+            } else {
+                check.setStatus(INCORRECTURL);
+            }
+        } catch (RestClientException e) {
+            check.setStatus(INCORRECTURL);
+        }    
         return check;
     }
 
     public Check saveCheck(Check check) {
         return checkRepository.save(check);
+    }
+
+
+    private Check createCheckCopy(Check check) {
+        Check copy = new Check();
+        copy.setStatus(check.getStatus());
+        copy.setUrl(check.getUrl());
+        copy.setServer(check.getServer());
+        return copy;
     }
 
     public void updateCheck(Long id, Check check) {
@@ -98,12 +128,9 @@ public class CheckService {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .forEach(server -> {
-                // Найти все проверки для текущего сервера
                 List<Check> checks = checkRepository.findByServerUrl(server.getUrl());
-                // Обновить статус каждой проверки
                 checks.forEach(check -> {
                     check.setStatus(newStatus);
-                    // Сохранить обновленную проверку
                     checkRepository.save(check);
                 });
             });

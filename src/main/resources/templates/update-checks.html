@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Server Status Checker</title>
+    <title>Update Page for Check Entity</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <h1>Update page For Check Entity</h1>
-    <div th:if="${error}" class="error-message">
-        <p th:text="${error}"></p>
+    <div id="error-message" style="display: none;">
+        <p id="error-text"></p>
     </div>
 
-    <table>
+    <table id="checksTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -19,25 +20,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="check : ${checks}">
-                <td th:text="${check.id}"></td>
-                <td th:text="${check.url}"></td>
-                <td th:text="${check.status}"></td>
-                <td>
-                   
-                    <form action="#" th:action="@{/check/update/{id}(id=${check.id})}" method="post">
-                        <input type="hidden" name="_method" value="put" />
-                        <input type="text" name="url" placeholder="Enter new server URL" required />
-                        <button type="submit">Update</button>
-                    </form>
-                </td>
-            </tr>
+            <!-- Rows will be added here dynamically -->
         </tbody>
     </table>
 
-
     <p><a href="/checks">Back To Checks Page</a></p>
 
-    
+    <script>
+        $(document).ready(function() {
+            // Fetch checks and update the table
+            $.getJSON("/checks", function(data) {
+                var items = [];
+                $.each(data, function(key, value) {
+                    items.push("<tr><td>" + value.id + "</td><td>" + value.url + "</td><td>" + value.status + "</td><td><button class='update-button' data-id='" + value.id + "'>Update</button></td></tr>");
+                });
+                $("#checksTable tbody").html(items.join(""));
+            });
+
+            // Handle update button clicks
+            $(document).on("click", ".update-button", function() {
+                var id = $(this).data("id");
+                // Example: Fetch a specific check for updating
+                $.getJSON("/check/" + id, function(data) {
+                    // Display the check data in a form for updating
+                    // This part depends on how you want to implement the update form
+                });
+            });
+        });
+    </script>
 </body>
 </html>

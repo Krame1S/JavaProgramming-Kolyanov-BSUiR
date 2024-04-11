@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "`Check`")
@@ -21,6 +22,7 @@ public class Check {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
+    @JsonBackReference
     private Server server;
 
 

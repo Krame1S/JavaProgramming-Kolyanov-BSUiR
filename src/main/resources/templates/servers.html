@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Servers by Status</title>
     <meta charset="UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <h1>Servers By Status: <span th:text="${status}"></span></h1>
+    <h1>Servers By Status: <span id="status"></span></h1>
 
     <table class="table table-striped">
         <thead>
@@ -16,18 +17,24 @@
             <th>Status</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="server : ${servers}" th:class="${serverStat.odd}? 'odd'">
-            <td th:text="${server.id}"></td>
-            <td th:text="${server.url}"></td>
-            <td th:text="${server.checks[0].status}"></td>
-        </tr>
+        <tbody id="serversTable">
+        <!-- Rows will be added here dynamically -->
         </tbody>
     </table>
 </div>
 
-    <a href="/">Back</a>
+<script>
+    // Example: Fetch servers by status and display them
+    var status = "up"; // This should be dynamically determined
+    $.getJSON("/servers/status?status=" + status, function(data) {
+        var items = [];
+        $.each(data, function(key, value) {
+            items.push("<tr><td>" + value.id + "</td><td>" + value.url + "</td><td>" + value.status + "</td></tr>");
+        });
+        $("#serversTable").html(items.join(""));
+    });
+</script>
 
-
+<p><a href="/">Back</a></p>
 </body>
 </html>

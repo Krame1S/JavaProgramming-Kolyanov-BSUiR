@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Error</title>
 </head>
 <body>
     <h1>Error</h1>
     <p>An error occurred while processing your request.</p>
     
-    <div th:if="${errorMessage}">
-        <p>Error message: <span th:text="${errorMessage}"></span></p>
+    <div id="error-message" style="display: none;">
+        <p>Error message: <span id="error-text"></span></p>
     </div>
     
-    <div th:if="${exception}">
-        <p>Exception: <span th:text="${exception}"></span></p>
-    </div>
-
     <button onclick="goBack()">Back</button>
 
     <script>
         function goBack() {
             window.history.back();
         }
+
+        // Example: Fetch an error message and display it
+        $.getJSON("/error", function(data) {
+            $("#error-message").show();
+            $("#error-text").text(data.message);
+        });
     </script>
 </body>
 </html>

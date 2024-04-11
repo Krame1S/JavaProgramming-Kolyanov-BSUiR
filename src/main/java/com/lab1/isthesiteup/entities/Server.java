@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Server {
@@ -19,6 +20,7 @@ public class Server {
     private String url;
 
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Check> checks = new ArrayList<>();
 
 

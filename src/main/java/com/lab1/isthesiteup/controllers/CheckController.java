@@ -1,83 +1,73 @@
 package com.lab1.isthesiteup.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import com.lab1.isthesiteup.dto.BulkUpdateRequest;
 import com.lab1.isthesiteup.entities.Check;
 import com.lab1.isthesiteup.services.CheckService;
+import com.lab1.isthesiteup.services.CounterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@Controller
+@RestController
 public class CheckController {
 
     private final CheckService checkService;
-
+    private final CounterService counterService;
     private static final Logger logger = LoggerFactory.getLogger(CheckController.class);
 
-    public CheckController(CheckService checkService) {
+    public CheckController(CheckService checkService, CounterService counterService) {
         this.checkService = checkService;
+        this.counterService = counterService;
     }
 
     @GetMapping("/checks")
-    @Operation(summary = "Get all checks")
-    public String getAllChecks(Model model) {
+    public ResponseEntity<List<Check>> getAllChecks() {
         logger.info("Getting all checks");
+        counterService.increment();
         List<Check> checks = checkService.getAllChecks();
-        model.addAttribute("checks", checks);
-        return "check";
+        return ResponseEntity.ok(checks);
     }
 
     @PostMapping("/check")
-    @Operation(summary = "Check server status for a given URL")
-    public String checkServerStatus(@RequestParam @Parameter(description = "URL to check") String url, Model model) {
+    public ResponseEntity<Check> checkServerStatus(@RequestParam String url) {
         url = url.replaceAll("[\n\r]", "_");
         logger.info("Checking server status for URL: {}", url);
+        counterService.increment();
         if (url == null || url.isEmpty()) {
             logger.error("Invalid URL provided");
-            throw new IllegalArgumentException("URL cannot be empty");
+            return ResponseEntity.badRequest().build();
         }
         Check check = checkService.getServerStatus(url);
         Check savedCheck = checkService.saveCheck(check);
-        model.addAttribute("url", savedCheck.getUrl());
-        model.addAttribute("status", savedCheck.getStatus());
-
-        return "checkurl";
+        return ResponseEntity.ok(savedCheck);
     }
 
     @PutMapping("/check/update/{id}")
-    @Operation(summary = "Update a check by ID")
-    public String updateCheck(@PathVariable Long id, @ModelAttribute Check check, Model model) {
+    public ResponseEntity<Void> updateCheck(@PathVariable Long id, @RequestBody Check check) {
         logger.info("Updating check. ID: {}, Check: {}", id, check);
         if (check == null) {
             logger.error("Invalid check details provided");
-            throw new IllegalArgumentException("Invalid check details");
+            return ResponseEntity.badRequest().build();
         }
         checkService.updateCheck(id, check);
-        return "redirect:/checks/update";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/checks/update")
-    @Operation(summary = "Show form for updating checks")
-    public String showFormForUpdateCheck(Model model) {
+    public ResponseEntity<List<Check>> showFormForUpdateCheck() {
         logger.info("Showing form for updating checks");
         List<Check> checks = checkService.getAllChecks();
-        model.addAttribute("checks", checks);
-        return "update-checks";
+        return ResponseEntity.ok(checks);
     }
 
     @DeleteMapping("/check/delete/{id}")
-    @Operation(summary = "Delete a check by ID")
-    public String deleteCheck(@PathVariable Long id, Model model) {
+    public ResponseEntity<Void> deleteCheck(@PathVariable Long id) {
         logger.info("Deleting check. ID: {}", id);
         checkService.deleteCheck(id);
-        return "redirect:/checks";
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/checks/bulk-update")
@@ -85,5 +75,4 @@ public class CheckController {
         checkService.bulkUpdateServerStatusThroughChecks(request.getServerIds(), request.getNewStatus());
         return ResponseEntity.ok().build();
     }
-    
 }

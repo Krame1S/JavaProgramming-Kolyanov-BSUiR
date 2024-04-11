@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Oops! Something Went Wrong</title>
+    <title>Error 500: Internal Server Error</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
     <h1 class="text-danger">Error 500: Internal Server Error</h1>
     <p>We're sorry, but something went wrong on our end. Our team has been notified and will work to fix the issue as soon as possible.</p>
-    <p th:text="${errorMessage}">Error details will be displayed here.</p>
+    <p id="errorMessage">Error details will be displayed here.</p>
     <a href="/" class="btn btn-primary">Go Home</a>
 </div>
+
+<script>
+    // Example: Fetch an error message and display it
+    $.getJSON("/error", function(data) {
+        $("#errorMessage").text(data.message);
+    });
+</script>
 </body>
 </html>

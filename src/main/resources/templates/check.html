@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Server Status Checker</title>
+    <title>CRUD Page for Check Entity</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <h1>CRUD page For Check Entity</h1>
-    <div th:if="${error}" class="error-message">
-        <p th:text="${error}"></p>
+    <div id="error-message" style="display: none;">
+        <p id="error-text"></p>
     </div>
 
     <h2>Check Url Status</h2>
-    <form action="#" th:action="@{/check}" method="post">
+    <form id="checkForm" method="post">
         <input type="text" name="url" placeholder="Enter server URL" required>
         <button type="submit">Check Status</button>
     </form>
 
-    <table>
+    <table id="checksTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -25,20 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="check : ${checks}">
-                <td th:text="${check.id}"></td>
-                <td th:text="${check.url}"></td>
-                <td th:text="${check.status}"></td>
-                <td>
-                    <!-- Update action -->
-
-                    <!-- Delete action -->
-                    <form method="post" th:action="@{/check/delete/{id}(id=${check.id})}" id="deleteForm_${check.id}">
-                        <input type="hidden" name="_method" value="DELETE" />
-                        <button type="submit" class="link-button">Delete</button>
-                    </form>
-                </td>
-            </tr>
+            <!-- Rows will be added here dynamically -->
         </tbody>
     </table>
 
@@ -46,6 +34,44 @@
 
     <p><a href="/">Back To Server Page</a></p>
 
-    
+    <script>
+        $(document).ready(function() {
+            // Fetch checks and update the table
+            $.getJSON("/checks", function(data) {
+                var items = [];
+                $.each(data, function(key, value) {
+                    items.push("<tr><td>" + value.id + "</td><td>" + value.url + "</td><td>" + value.status + "</td><td><button class='delete-button' data-id='" + value.id + "'>Delete</button></td></tr>");
+                });
+                $("#checksTable tbody").html(items.join(""));
+            });
+
+            // Handle form submission
+            $("#checkForm").submit(function(e) {
+                e.preventDefault();
+                var url = $(this).find("input[name='url']").val();
+                $.post("/check", { url: url }, function(data) {
+                    // Update the table with the new check
+                    $("#checksTable tbody").append("<tr><td>" + data.id + "</td><td>" + data.url + "</td><td>" + data.status + "</td><td><button class='delete-button' data-id='" + data.id + "'>Delete</button></td></tr>");
+                });
+            });
+
+            // Handle delete button clicks
+            $(document).on("click", ".delete-button", function() {
+                var id = $(this).data("id");
+                $.ajax({
+                    url: "/check/delete/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        // Remove the row from the table
+                        $("#checksTable tbody").find("tr").each(function() {
+                            if ($(this).find("td:first").text() == id) {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Server Status Check Result</title>
 </head>
 <body>
     <h1>Server Status Check Result</h1>
-    <p>URL: <span th:text="${url}"></span></p>
-    <p>Status: <span th:text="${status}"></span></p>
+    <p>URL: <span id="url"></span></p>
+    <p>Status: <span id="status"></span></p>
     <a href="/checks">Back</a>
+
+    <script>
+        // Example: Fetch a specific check result and display it
+        var checkId = 1; // This should be dynamically determined
+        $.getJSON("/check/" + checkId, function(data) {
+            $("#url").text(data.url);
+            $("#status").text(data.status);
+        });
+    </script>
 </body>
 </html>

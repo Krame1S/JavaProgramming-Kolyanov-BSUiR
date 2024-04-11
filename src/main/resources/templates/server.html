@@ -1,54 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Server Status Checker</title>
+    <title>CRUD Page for Server Entity</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <h1>CRUD page For Server Entity</h1>
 
     <h2>Add New Server</h2>
-    
-    <div th:if="${error}" class="error-message">
-        <p th:text="${error}"></p>
+    <div id="error-message" style="display: none;">
+        <p id="error-text"></p>
     </div>
 
-    <form action="#" th:action="@{/server}" method="post">
+    <form id="addServerForm" method="post">
         <input type="text" name="url" placeholder="Enter server URL" required>
         <button type="submit">Add Server</button>
     </form>
 
     <h2>Servers</h2>
-    <ul>
-        <li th:each="server : ${servers}">
-            <span th:text="${server.url}"></span>
-            <form action="#" th:action="@{/server/{id}(id=${server.id})}" method="post">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit">Delete</button>
-            </form>
-            <form action="#" th:action="@{/server/{id}(id=${server.id})}" method="post">
-                <input type="hidden" name="_method" value="put" />
-                <input type="text" name="url" placeholder="Enter new server URL" required />
-                <button type="submit">Update</button>
-            </form>
-        </li>
-
-        <a href="/checks">Go To CRUD Page For Check Entity</a>
-
-
-    <!-- Modified form to restrict status input -->
-    <p>
-        <form action="#" th:action="@{/servers/status}" method="get">
-            <label for="status">Status:</label>
-            <select id="status" name="status" required>
-                <option value="">Select status</option>
-                <option value="Site is up">Site is up</option>
-                <option value="Site is down">Site is down</option>
-                <option value="Incorrect URL">Incorrect URL</option>
-            </select>
-            <button type="submit">Find Servers by Status</button>
-        </form>
-    </p>
+    <ul id="serversList">
+        <!-- List items will be added here dynamically -->
+    </ul>
 
     <a href="/checks">Go To CRUD Page For Check Entity</a>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch servers and update the list
+            $.getJSON("/servers", function(data) {
+                var items = [];
+                $.each(data, function(key, value) {
+                    items.push("<li><span>" + value.url + "</span><button class='delete-button' data-id='" + value.id + "'>Delete</button></li>");
+                });
+                $("#serversList").html(items.join(""));
+            });
+
+            // Handle form submission
+            $("#addServerForm").submit(function(e) {
+                e.preventDefault();
+                var url = $(this).find("input[name='url']").val();
+                $.post("/server", { url: url }, function(data) {
+                    // Update the list with the new server
+                    $("#serversList").append("<li><span>" + data.url + "</span><button class='delete-button' data-id='" + data.id + "'>Delete</button></li>");
+                });
+            });
+
+            // Handle delete button clicks
+            $(document).on("click", ".delete-button", function() {
+                var id = $(this).data("id");
+                $.ajax({
+                    url: "/server/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        // Remove the list item from the list
+                        $("#serversList li").each(function() {
+                            if ($(this).find("span").text() == id) {
+                                $(this).remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
