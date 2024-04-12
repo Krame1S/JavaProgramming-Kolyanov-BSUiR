@@ -1,13 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Servers by Status</title>
     <meta charset="UTF-8"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table .odd {
+            background-color: #f9f9f9;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Servers By Status: <span id="status"></span></h1>
+    <h1>Servers By Status: <span th:text="${status}"></span></h1>
 
     <table class="table table-striped">
         <thead>
@@ -17,24 +65,19 @@
             <th>Status</th>
         </tr>
         </thead>
-        <tbody id="serversTable">
-        <!-- Rows will be added here dynamically -->
+        <tbody>
+        <tr th:each="server : ${servers}" th:class="${serverStat.odd}? 'odd'">
+            <td th:text="${server.id}"></td>
+            <td th:text="${server.url}"></td>
+            <td th:text="${server.checks[0].status}"></td>
+        </tr>
         </tbody>
     </table>
 </div>
 
-<script>
-    // Example: Fetch servers by status and display them
-    var status = "up"; // This should be dynamically determined
-    $.getJSON("/servers/status?status=" + status, function(data) {
-        var items = [];
-        $.each(data, function(key, value) {
-            items.push("<tr><td>" + value.id + "</td><td>" + value.url + "</td><td>" + value.status + "</td></tr>");
-        });
-        $("#serversTable").html(items.join(""));
-    });
-</script>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="/" class="btn">Back</a>
+</div>
 
-<p><a href="/">Back</a></p>
 </body>
 </html>

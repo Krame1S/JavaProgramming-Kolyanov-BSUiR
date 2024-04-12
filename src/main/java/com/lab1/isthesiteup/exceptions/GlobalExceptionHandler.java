@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,15 +17,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleValidationExceptions(Exception ex) {
+    public ModelAndView handleValidationExceptions(Exception ex) {
         logger.error("Validation error: {}", ex.getMessage());
-        return ResponseEntity.badRequest().body("Validation error: " + ex.getMessage());
+        ModelAndView modelAndView = new ModelAndView("error-400"); 
+        modelAndView.addObject("errorMessage", "Validation error: " + ex.getMessage());
+        return modelAndView;
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> handleInternalServerError(Throwable ex) {
+    public ModelAndView handleInternalServerError(Throwable ex) {
         logger.error("Internal server error: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        ModelAndView modelAndView = new ModelAndView("error-500"); 
+        modelAndView.addObject("errorMessage", "Internal server error");
+        return modelAndView;
     }
 }

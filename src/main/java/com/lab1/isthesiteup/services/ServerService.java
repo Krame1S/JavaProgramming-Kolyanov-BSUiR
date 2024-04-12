@@ -50,7 +50,6 @@ public class ServerService {
         return serverRepository.save(server);
     }
     
-
     public void deleteServer(Long id) {
         serverRepository.deleteById(id);
     

@@ -1,65 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>CRUD Page for Server Entity</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Server Status Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        p, td {
+            color: #666;
+            line-height: 1.5;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        input, button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .link-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .link-button:hover {
+            color: #0056b3;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>CRUD page For Server Entity</h1>
+    <div class="container">
+        <h1>CRUD page For Server Entity</h1>
 
-    <h2>Add New Server</h2>
-    <div id="error-message" style="display: none;">
-        <p id="error-text"></p>
+        <h2>Add New Server</h2>
+        
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+        
+        <!-- Success messages for server operations -->
+        <div th:if="${serverAddedSuccess}" class="success-message" role="alert">
+            Server successfully added!
+        </div>
+        <div th:if="${serverUpdatedSuccess}" class="success-message" role="alert">
+            Server successfully updated!
+        </div>
+        <div th:if="${serverDeletedSuccess}" class="success-message" role="alert">
+            Server successfully deleted!
+        </div>
+
+        <form action="#" th:action="@{/server}" method="post">
+            <input type="text" name="url" placeholder="Enter server URL" required>
+            <button type="submit">Add Server</button>
+        </form>
+
+        <h2>Servers</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="server : ${servers}">
+                    <td th:text="${server.url}"></td>
+                    <td>
+                        <form method="post" th:action="@{/server/{id}(id=${server.id})}" class="d-inline update-form">
+                            <input type="text" name="url" class="form-control mr-2 update-input" placeholder="Enter new server URL" required />
+                            <input type="hidden" name="_method" value="PUT" />
+                            <button type="submit" class="btn btn-primary submit-update-btn">Submit Update</button>
+                        </form>
+                        <form method="post" th:action="@{/server/{id}(id=${server.id})}" class="d-inline">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- empty paragraph bellow -->
+        <p></p>
+        <p></p>
+
+        <h2>Server Status Filter</h2>
+        <form action="#" th:action="@{/servers/status}" method="get">
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="">Select status</option>
+                <option value="Site is up">Site is up</option>
+                <option value="Site is down">Site is down</option>
+                <option value="Incorrect URL">Incorrect URL</option>
+            </select>
+            <button type="submit">Find Servers by Status</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/checks" class="btn btn-link">Go To CRUD Page For Check Entity</a>
+        </div>
     </div>
 
-    <form id="addServerForm" method="post">
-        <input type="text" name="url" placeholder="Enter server URL" required>
-        <button type="submit">Add Server</button>
-    </form>
-
-    <h2>Servers</h2>
-    <ul id="serversList">
-        <!-- List items will be added here dynamically -->
-    </ul>
-
-    <a href="/checks">Go To CRUD Page For Check Entity</a>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Fetch servers and update the list
-            $.getJSON("/servers", function(data) {
-                var items = [];
-                $.each(data, function(key, value) {
-                    items.push("<li><span>" + value.url + "</span><button class='delete-button' data-id='" + value.id + "'>Delete</button></li>");
-                });
-                $("#serversList").html(items.join(""));
-            });
-
-            // Handle form submission
-            $("#addServerForm").submit(function(e) {
-                e.preventDefault();
-                var url = $(this).find("input[name='url']").val();
-                $.post("/server", { url: url }, function(data) {
-                    // Update the list with the new server
-                    $("#serversList").append("<li><span>" + data.url + "</span><button class='delete-button' data-id='" + data.id + "'>Delete</button></li>");
-                });
-            });
-
-            // Handle delete button clicks
-            $(document).on("click", ".delete-button", function() {
-                var id = $(this).data("id");
-                $.ajax({
-                    url: "/server/" + id,
-                    type: "DELETE",
-                    success: function() {
-                        // Remove the list item from the list
-                        $("#serversList li").each(function() {
-                            if ($(this).find("span").text() == id) {
-                                $(this).remove();
-                            }
-                        });
-                    }
-                });
+            $('.update-btn').click(function() {
+                $(this).parent().find('.update-input, .update-form, .submit-update-btn').toggle();
+                $(this).hide();
             });
         });
     </script>

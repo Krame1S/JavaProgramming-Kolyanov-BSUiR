@@ -24,9 +24,9 @@ public class CounterController {
         return counterService.getCount();
     }
 
-    // @GetMapping("/reset-counter")
-    // public int resetCounterValue() {
-    //     logger.info("Resetting counter value");
-    //     return counterService.resetCount();
-    // }
+    @GetMapping("/reset-counter")
+    public int resetCounterValue() {
+        logger.info("Resetting counter value");
+        return counterService.resetCount();
+    }
 }
