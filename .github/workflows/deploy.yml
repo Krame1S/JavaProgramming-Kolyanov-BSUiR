@@ -1,0 +1,40 @@
+name: ci
+
+on:
+ push:
+    branches: [ main ]
+ workflow_dispatch:
+
+jobs:
+ login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+ build_and_push:
+    needs: login
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: krame1s/java-app:latest
+
+ deploy_to_render:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          method: 'POST'
