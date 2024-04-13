@@ -12,7 +12,7 @@ services:
     ports:
       - "8080:8080"
  db:
-    image: mariadb:10.8.2
+    image: mariadb:10.11.6
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
