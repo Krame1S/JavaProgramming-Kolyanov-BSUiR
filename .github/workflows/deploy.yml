@@ -28,7 +28,6 @@ jobs:
           context: .
           push: true
           tags: krame1s/java-app:latest
-          build-args: JAR_FILE=target/JavaProgramming-Kolyanov-BSUiR-0.0.1-SNAPSHOT.jar
 
  deploy_to_render:
     needs: build_and_push
