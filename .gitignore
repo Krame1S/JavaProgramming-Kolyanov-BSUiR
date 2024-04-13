@@ -70,3 +70,6 @@ replay_pid*
 mvnw
 .mvn
 logs
+.env
+application-prod.properties
+logback-spring.xml
