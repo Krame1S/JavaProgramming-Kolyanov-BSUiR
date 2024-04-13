@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Server Status Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        p, td {
+            color: #666;
+            line-height: 1.5;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        input, button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .link-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .link-button:hover {
+            color: #0056b3;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CRUD page For Check Entity</h1>
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+
+        <h2>Check Url Status</h2>
+        <form action="#" th:action="@{/check}" method="post">
+            <input type="text" name="url" placeholder="Enter server URL" required>
+            <button type="submit">Check Status</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="check : ${checks}">
+                    <td th:text="${check.id}"></td>
+                    <td th:text="${check.url}"></td>
+                    <td th:text="${check.status}"></td>
+                    <td>
+                        <!-- Update action -->
+
+                        <!-- Delete action -->
+                        <form method="post" th:action="@{/check/delete/{id}(id=${check.id})}" id="deleteForm_${check.id}">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form action="#" th:action="@{/checks/update}" method="get">
+            <button type="submit">Update</button>
+        </form>
+
+        <p><a href="/">Back To Server Page</a></p>
+    </div>
+</body>
+</html>

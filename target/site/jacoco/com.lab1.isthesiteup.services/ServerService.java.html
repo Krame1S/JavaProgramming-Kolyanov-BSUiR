@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaProgramming-Kolyanov-BSUiR</a> &gt; <a href="index.source.html" class="el_package">com.lab1.isthesiteup.services</a> &gt; <span class="el_source">ServerService.java</span></div><h1>ServerService.java</h1><pre class="source lang-java linenums">package com.lab1.isthesiteup.services;
+
+import org.springframework.stereotype.Service;
+import com.lab1.isthesiteup.entities.Check;
+import com.lab1.isthesiteup.entities.Server;
+import com.lab1.isthesiteup.repositories.CheckRepository;
+import com.lab1.isthesiteup.repositories.ServerRepository;
+import java.util.List;
+import java.util.Optional;
+
+
+@Service
+public class ServerService {
+
+    private final CheckRepository checkRepository;
+    private final ServerRepository serverRepository;
+
+<span class="fc" id="L18">    public ServerService(ServerRepository serverRepository, CheckRepository checkRepository) {</span>
+<span class="fc" id="L19">        this.serverRepository = serverRepository;</span>
+<span class="fc" id="L20">        this.checkRepository = checkRepository;</span>
+<span class="fc" id="L21">    }</span>
+
+    public List&lt;Server&gt; findServersByCheckStatus(String status) {
+<span class="fc" id="L24">        return serverRepository.findServersByCheckStatus(status);</span>
+    }
+
+    public List&lt;Server&gt; getAllServers() {
+<span class="fc" id="L28">        return serverRepository.findAll();</span>
+    }
+    
+    
+    public Server addServer(Server server) {
+<span class="fc" id="L33">        Optional&lt;Server&gt; existingServer = serverRepository.findByUrl(server.getUrl());</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (existingServer.isPresent()) {</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;A server with this URL already exists.&quot;);</span>
+        }
+<span class="fc" id="L37">        return serverRepository.save(server);</span>
+    }    
+
+    public Server updateServerUrl(Long id, String newUrl) {
+<span class="fc" id="L41">        Server server = serverRepository.findById(id)</span>
+<span class="pc" id="L42">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Server not found with id: &quot; + id));</span>
+<span class="fc" id="L43">        List&lt;Check&gt; checksToRemove = checkRepository.findByServerUrl(server.getUrl());</span>
+<span class="fc" id="L44">        checkRepository.deleteAll(checksToRemove);</span>
+        // if the server url already exists do not update it
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (serverRepository.findByUrl(newUrl).isPresent()) {</span>
+<span class="fc" id="L47">            throw new IllegalArgumentException(&quot;A server with this URL already exists.&quot;);</span>
+        }
+<span class="fc" id="L49">        server.setUrl(newUrl);</span>
+<span class="fc" id="L50">        return serverRepository.save(server);</span>
+    }
+    
+    public void deleteServer(Long id) {
+<span class="fc" id="L54">        serverRepository.deleteById(id);</span>
+    
+<span class="fc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

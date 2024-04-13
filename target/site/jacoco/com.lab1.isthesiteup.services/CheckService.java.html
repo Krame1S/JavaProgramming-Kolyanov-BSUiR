@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaProgramming-Kolyanov-BSUiR</a> &gt; <a href="index.source.html" class="el_package">com.lab1.isthesiteup.services</a> &gt; <span class="el_source">CheckService.java</span></div><h1>CheckService.java</h1><pre class="source lang-java linenums">package com.lab1.isthesiteup.services;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.lab1.isthesiteup.config.CacheConfig;
+import com.lab1.isthesiteup.entities.Check;
+import com.lab1.isthesiteup.entities.Server;
+import com.lab1.isthesiteup.repositories.CheckRepository;
+import com.lab1.isthesiteup.repositories.ServerRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CheckService {
+
+    private final CheckRepository checkRepository;
+    private final ServerRepository serverRepository;
+    private CacheConfig cacheConfig;
+
+<span class="fc" id="L25">    public CheckService(ServerRepository serverRepository, CheckRepository checkRepository, CacheConfig cacheConfig) {</span>
+<span class="fc" id="L26">        this.serverRepository = serverRepository;</span>
+<span class="fc" id="L27">        this.checkRepository = checkRepository;</span>
+<span class="fc" id="L28">        this.cacheConfig = cacheConfig;</span>
+<span class="fc" id="L29">    }</span>
+
+    private static final String STATUSUP = &quot;Site is up&quot;;
+    private static final String STATUSDOWN = &quot;Site is down&quot;;
+    private static final String INCORRECTURL = &quot;Incorrect URL&quot;;
+
+    public List&lt;Check&gt; getAllChecks() {
+<span class="fc" id="L36">        return checkRepository.findAll();</span>
+    }
+
+    public Check getServerStatus(String url) {
+<span class="fc" id="L40">        Check cachedCheck = (Check) cacheConfig.get(url);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (cachedCheck != null) {</span>
+<span class="nc" id="L42">            return createCheckCopy(cachedCheck);</span>
+        }
+
+<span class="fc" id="L45">        RestTemplate restTemplate = new RestTemplate();</span>
+<span class="fc" id="L46">        Server server = serverRepository.findByUrl(url)</span>
+<span class="fc" id="L47">                .orElseGet(() -&gt; {</span>
+<span class="fc" id="L48">                    Server newServer = new Server();</span>
+<span class="fc" id="L49">                    newServer.setUrl(url);</span>
+<span class="fc" id="L50">                    return serverRepository.save(newServer);</span>
+                });
+    
+<span class="fc" id="L53">        Check check = new Check();</span>
+<span class="fc" id="L54">        check.setUrl(url);</span>
+<span class="fc" id="L55">        check.setServer(server);</span>
+    
+        try {
+<span class="fc" id="L58">            restTemplate.getForEntity(url, String.class);</span>
+<span class="fc" id="L59">            check.setStatus(STATUSUP);</span>
+
+<span class="fc" id="L61">            saveCheck(check);</span>
+<span class="fc" id="L62">            cacheConfig.put(url, check, 10000);</span>
+        
+<span class="nc" id="L64">        } catch (HttpClientErrorException e) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {</span>
+<span class="nc" id="L66">                check.setStatus(STATUSDOWN);</span>
+            } else {
+<span class="nc" id="L68">                check.setStatus(INCORRECTURL);</span>
+            }
+<span class="nc" id="L70">        } catch (RestClientException e) {</span>
+<span class="nc" id="L71">            check.setStatus(INCORRECTURL);</span>
+<span class="pc" id="L72">        }    </span>
+<span class="fc" id="L73">        return check;</span>
+    }
+
+    public Check saveCheck(Check check) {
+<span class="fc" id="L77">        return checkRepository.save(check);</span>
+    }
+
+
+    private Check createCheckCopy(Check check) {
+<span class="nc" id="L82">        Check copy = new Check();</span>
+<span class="nc" id="L83">        copy.setStatus(check.getStatus());</span>
+<span class="nc" id="L84">        copy.setUrl(check.getUrl());</span>
+<span class="nc" id="L85">        copy.setServer(check.getServer());</span>
+<span class="nc" id="L86">        return copy;</span>
+    }
+
+    public void updateCheck(Long id, Check check) {
+<span class="fc" id="L90">        Optional&lt;Check&gt; existingCheck = checkRepository.findById(id);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (existingCheck.isPresent()) {</span>
+<span class="fc" id="L92">            Check updatedCheck = existingCheck.get();</span>
+<span class="fc" id="L93">            updatedCheck.setUrl(check.getUrl());</span>
+    
+<span class="fc" id="L95">            Server server = serverRepository.findByUrl(updatedCheck.getUrl())</span>
+<span class="fc" id="L96">                    .orElseGet(() -&gt; {</span>
+<span class="fc" id="L97">                        Server newServer = new Server();</span>
+<span class="fc" id="L98">                        newServer.setUrl(updatedCheck.getUrl());</span>
+<span class="fc" id="L99">                        return serverRepository.save(newServer);</span>
+                    });
+    
+<span class="fc" id="L102">            updatedCheck.setServer(server);</span>
+    
+<span class="fc" id="L104">            String status = getServerStatus(updatedCheck.getUrl()).getStatus();</span>
+<span class="fc" id="L105">            updatedCheck.setStatus(status);</span>
+    
+<span class="fc" id="L107">            saveCheck(updatedCheck);</span>
+
+<span class="fc" id="L109">            cacheConfig.remove(check.getUrl());</span>
+
+        }
+<span class="fc" id="L112">    }</span>
+
+    public void deleteCheck(Long id) {
+<span class="fc" id="L115">        Optional&lt;Check&gt; checkOptional = checkRepository.findById(id);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (checkOptional.isPresent()) {</span>
+<span class="fc" id="L117">            Check check = checkOptional.get();</span>
+
+<span class="fc" id="L119">            checkRepository.deleteById(id);</span>
+
+<span class="fc" id="L121">            cacheConfig.remove(check.getUrl());</span>
+        }
+<span class="fc" id="L123">    }</span>
+
+    public void bulkUpdateServerStatusThroughChecks(List&lt;Long&gt; serverIds, String newStatus) {
+<span class="fc" id="L126">        serverIds.stream()</span>
+<span class="fc" id="L127">            .map(serverRepository::findById)</span>
+<span class="fc" id="L128">            .filter(Optional::isPresent)</span>
+<span class="fc" id="L129">            .map(Optional::get)</span>
+<span class="fc" id="L130">            .forEach(server -&gt; {</span>
+<span class="fc" id="L131">                List&lt;Check&gt; checks = checkRepository.findByServerUrl(server.getUrl());</span>
+<span class="fc" id="L132">                checks.forEach(check -&gt; {</span>
+<span class="fc" id="L133">                    check.setStatus(newStatus);</span>
+<span class="fc" id="L134">                    checkRepository.save(check);</span>
+<span class="fc" id="L135">                });</span>
+<span class="fc" id="L136">            });</span>
+<span class="fc" id="L137">    }</span>
+}    
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

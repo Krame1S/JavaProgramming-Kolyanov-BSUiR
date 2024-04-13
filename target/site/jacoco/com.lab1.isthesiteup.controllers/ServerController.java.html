@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaProgramming-Kolyanov-BSUiR</a> &gt; <a href="index.source.html" class="el_package">com.lab1.isthesiteup.controllers</a> &gt; <span class="el_source">ServerController.java</span></div><h1>ServerController.java</h1><pre class="source lang-java linenums">package com.lab1.isthesiteup.controllers;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.lab1.isthesiteup.entities.Server;
+import com.lab1.isthesiteup.services.CheckService;
+import com.lab1.isthesiteup.services.ServerService;
+
+@Controller
+public class ServerController {
+
+    private static final String SERVERS = &quot;servers&quot;;
+    private static final String REDIRECT = &quot;redirect:/&quot;;
+    private final ServerService serverService;
+    private final CheckService checkService;
+
+<span class="nc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(ServerController.class);</span>
+
+<span class="nc" id="L26">    public ServerController(ServerService serverService, CheckService checkService) {</span>
+<span class="nc" id="L27">        this.serverService = serverService;</span>
+<span class="nc" id="L28">        this.checkService = checkService;</span>
+<span class="nc" id="L29">    }</span>
+
+    @GetMapping(&quot;/servers/status&quot;)
+    @Operation(summary = &quot;Get servers by check status&quot;)
+    public String getServersByCheckStatus(@RequestParam @Parameter(description = &quot;Check status&quot;) String status, Model model) {
+<span class="nc" id="L34">        status = status.replaceAll(&quot;[\n\r]&quot;, &quot;_&quot;);</span>
+<span class="nc" id="L35">        logger.info(&quot;Getting servers by check status: {}&quot;, status);</span>
+<span class="nc" id="L36">        List&lt;Server&gt; servers = serverService.findServersByCheckStatus(status);</span>
+<span class="nc" id="L37">        model.addAttribute(SERVERS, servers);</span>
+<span class="nc" id="L38">        return SERVERS;</span>
+    }
+
+    @GetMapping(&quot;/&quot;)
+    @Operation(summary = &quot;Get all servers and checks&quot;)
+    public String server(Model model) {
+<span class="nc" id="L44">        logger.info(&quot;Getting all servers and checks&quot;);</span>
+<span class="nc" id="L45">        model.addAttribute(SERVERS, serverService.getAllServers());</span>
+<span class="nc" id="L46">        model.addAttribute(&quot;checks&quot;, checkService.getAllChecks());</span>
+<span class="nc" id="L47">        return &quot;server&quot;;</span>
+    }
+
+    @PostMapping(&quot;/server&quot;)
+    @Operation(summary = &quot;Add a new server&quot;)
+    public String addServer(@ModelAttribute Server server, Model model, RedirectAttributes redirectAttributes) {
+        try {
+<span class="nc" id="L54">            serverService.addServer(server);</span>
+<span class="nc" id="L55">            redirectAttributes.addFlashAttribute(&quot;serverAddedSuccess&quot;, true);</span>
+<span class="nc" id="L56">            logger.info(&quot;Server added successfully: {}&quot;, server);</span>
+<span class="nc" id="L57">            return REDIRECT;</span>
+<span class="nc" id="L58">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L59">            logger.error(&quot;Error adding server: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L60">            redirectAttributes.addFlashAttribute(&quot;error&quot;, e.getMessage());</span>
+<span class="nc" id="L61">            return REDIRECT;</span>
+        }
+    }
+
+    @PutMapping(&quot;/server/{id}&quot;)
+    public String updateServer(@PathVariable Long id, @RequestParam @Parameter(description = &quot;New server URL&quot;) String url, Model model, RedirectAttributes redirectAttributes) {
+<span class="nc bnc" id="L67" title="All 4 branches missed.">        if (url == null || url.isEmpty()) {</span>
+<span class="nc" id="L68">            String errorMessage = &quot;URL cannot be empty&quot;;</span>
+<span class="nc" id="L69">            logger.error(&quot;Error updating server: {}&quot;, errorMessage);</span>
+<span class="nc" id="L70">            throw new IllegalArgumentException(errorMessage);</span>
+        }
+
+        try {
+<span class="nc" id="L74">            serverService.updateServerUrl(id, url);</span>
+<span class="nc" id="L75">            url = url.replaceAll(&quot;[\n\r]&quot;, &quot;_&quot;);</span>
+<span class="nc" id="L76">            redirectAttributes.addFlashAttribute(&quot;serverUpdatedSuccess&quot;, true);</span>
+<span class="nc" id="L77">            logger.info(&quot;Server updated successfully. URL: {}&quot;, url);</span>
+<span class="nc" id="L78">            return REDIRECT;</span>
+<span class="nc" id="L79">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L80">            logger.error(&quot;Error updating server: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L81">            redirectAttributes.addFlashAttribute(&quot;error&quot;, e.getMessage());</span>
+<span class="nc" id="L82">            return REDIRECT;</span>
+        }
+    }
+
+    @DeleteMapping(&quot;/server/{id}&quot;)
+    @Operation(summary = &quot;Delete a server by ID&quot;)
+    public String deleteServer(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+<span class="nc" id="L89">        logger.info(&quot;Deleting server. ID: {}&quot;, id);</span>
+<span class="nc" id="L90">        serverService.deleteServer(id);</span>
+<span class="nc" id="L91">        redirectAttributes.addFlashAttribute(&quot;serverDeletedSuccess&quot;, true);</span>
+<span class="nc" id="L92">        logger.info(&quot;Server deleted successfully. ID: {}&quot;, id);</span>
+<span class="nc" id="L93">        return REDIRECT;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

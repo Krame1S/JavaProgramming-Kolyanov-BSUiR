@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.services,CounterService,35,0,0,0,11,0,5,0,5,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.services,ServerService,6,82,0,4,0,20,1,8,1,6
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.services,CheckService,39,214,3,5,12,57,3,13,1,11
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.exceptions,GlobalExceptionHandler,43,0,0,0,10,0,4,0,4,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.entities,Check,6,25,0,0,2,11,2,7,2,7
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.entities,Server,10,19,0,0,4,7,3,4,3,4
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.controllers,CheckController,135,0,6,0,36,0,11,0,8,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.controllers,ServerController,157,0,4,0,40,0,9,0,7,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.controllers,CounterController,17,0,0,0,6,0,3,0,3,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.dto,BulkUpdateRequest,17,0,0,0,7,0,5,0,5,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup.config,CacheConfig,43,0,0,0,10,0,5,0,5,0
+JavaProgramming-Kolyanov-BSUiR,com.lab1.isthesiteup,IsTheSiteUpApplication,8,0,0,0,3,0,2,0,2,0
