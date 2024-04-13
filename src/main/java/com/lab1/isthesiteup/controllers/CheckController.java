@@ -43,6 +43,7 @@ public class CheckController {
     public String checkServerStatus(@RequestParam @Parameter(description = "URL to check") String url, Model model) {
         url = url.replaceAll("[\n\r]", "_");
         logger.info("Checking server status for URL: {}", url);
+        counterService.increment(); 
         if (url == null || url.isEmpty()) {
             logger.error("Invalid URL provided");
             throw new IllegalArgumentException("URL cannot be empty");
