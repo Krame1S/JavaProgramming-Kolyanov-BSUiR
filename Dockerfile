@@ -9,5 +9,4 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
 # Use the wait-for-it script to wait for the database
-# Replace 'db' with the hostname of your database service and '3306' with the port
 CMD /usr/local/bin/wait-for-it.sh db:3306 --timeout=60 --strict -- echo "Database is ready" && java -jar /app.jar
