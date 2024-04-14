@@ -11,11 +11,6 @@ services:
       - db
     ports:
       - "8080:8080"
-    volumes:
-      - type: bind
-        source: /home/ilya/db-config.json
-        target: /config/db-config.json
-        read_only: true
  db:
     image: mariadb:10.8.2
     environment:
