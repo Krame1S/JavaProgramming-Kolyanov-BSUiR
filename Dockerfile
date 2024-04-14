@@ -15,4 +15,4 @@ COPY ${JAR_FILE} app.jar
 COPY db-config.json /config/db-config.json
 
 # Use the wait-for-it script to wait for the database
-CMD /usr/local/bin/wait-for-it db:3306 --timeout=60 --strict -- echo "Database is ready" && java -jar /app.jar
+CMD /usr/local/bin/wait-for-it 172.17.0.2:3306 --timeout=60 --strict -- echo "Database is ready" && java -jar /app.jar
