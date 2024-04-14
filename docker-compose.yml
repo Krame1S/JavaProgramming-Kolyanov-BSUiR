@@ -3,14 +3,14 @@ services:
  wait-for-db:
     image: atkrad/wait4x
     depends_on:
-      - db
-    command: tcp db:3306 -t 30s -i 250ms
+      - mariadb-container
+    command: tcp mariadb-container:3306 -t 30s -i 250ms
 
  app:
     container_name: my_app
     build: .
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb-container:3306/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
@@ -19,7 +19,7 @@ services:
     ports:
       - "8080:8080"
 
- db:
+ mariadb-container:
     image: mariadb:10.8.2
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
