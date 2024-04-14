@@ -1,5 +1,8 @@
 FROM openjdk:17-jdk-alpine
 
+# Install bash
+RUN apk add --no-cache bash
+
 # Copy the wait-for-it script into the container
 COPY wait-for-it /usr/local/bin/wait-for-it
 RUN chmod +x /usr/local/bin/wait-for-it
